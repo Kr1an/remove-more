@@ -1,6 +1,6 @@
 import argparse
-import os
-from utils import oscheckmanager, installmaster
+from utils import oscheckmanager
+from utils import installmaster, testmaster
 
 
 # Used modules:
@@ -39,10 +39,11 @@ def install():
 def test():
     """Start test function
 
-    Run test case command that search for unittest class cases
+    Run test case command in testmaster(manager)
+    that search for unittest class cases.
 
     """
-    os.system("python -m unittest discover -v -s './tests'")
+    testmaster.run_tests()
 
 
 def setup():
