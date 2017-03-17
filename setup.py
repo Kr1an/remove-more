@@ -1,6 +1,6 @@
 import argparse
-from utils import oscheckmanager
-from utils import installmaster, testmaster
+
+from utils.managers import installmaster, oscheckmanager, testmaster
 
 
 # Used modules:
@@ -74,12 +74,14 @@ def setup():
             action="store_true"
         )
         arguments = arguments_parser.parse_args()
+
         if arguments.test:
             test()
 
         if arguments.remove:
             remove()
-        else:
+
+        if not arguments.remove:
             install()
 
 if __name__ == "__main__":
