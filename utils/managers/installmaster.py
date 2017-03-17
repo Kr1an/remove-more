@@ -1,5 +1,6 @@
 import os
-from utils import configmanager
+
+from utils.managers import configmanager
 
 
 def is_installed():

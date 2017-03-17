@@ -1,5 +1,6 @@
 import sys
-from utils import configmanager
+
+from utils.managers import configmanager
 
 
 def is_supported_platform():
