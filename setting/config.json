@@ -1,0 +1,13 @@
+{
+    "name": {
+        "short": "rr",
+        "normal": "RemoveRestore"
+    },
+    "supported_platforms": [
+        "linux",
+        "linux2"
+    ],
+    "controller": {
+        "name": "controller.py"
+    }
+}
