@@ -69,8 +69,3 @@ def get_property_from_json(json_str, search_query, sep='.'):
 
     obj = json.loads(json_str)
     return get_property(obj, search_query, sep)
-
-
-
-
-
