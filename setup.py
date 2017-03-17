@@ -1,6 +1,6 @@
 import argparse
 
-from utils.managers import installmaster, oscheckmanager, testmaster
+from utils.managers import install_master, os_check_manager, test_master
 
 
 # Used modules:
@@ -21,8 +21,8 @@ def remove():
     reinstall(remove) script from memory.
 
     """
-    if installmaster.is_installed():
-        installmaster.remove()
+    if install_master.is_installed():
+        install_master.remove()
 
 
 def install():
@@ -32,8 +32,8 @@ def install():
     install(bind) script to memory.
 
     """
-    if not installmaster.is_installed():
-        installmaster.install()
+    if not install_master.is_installed():
+        install_master.install()
 
 
 def test():
@@ -43,7 +43,7 @@ def test():
     that search for unittest class cases.
 
     """
-    testmaster.run_tests()
+    test_master.run_tests()
 
 
 def setup():
@@ -57,7 +57,7 @@ def setup():
         default: execute install script.
 
     """
-    if oscheckmanager.is_supported_platform():
+    if os_check_manager.is_supported_platform():
         arguments_parser = argparse.ArgumentParser()
         arguments_parser.add_argument(
             "-r",
