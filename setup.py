@@ -3,15 +3,17 @@ import argparse
 from utils.managers import install_master, os_check_manager, test_master
 
 
+#
 # Used modules:
 #
-#     oscheckmanager -- manager, should provide next functions:
-#         is_supported_platform -- is current platform supported
+#     oscheckmanager: manager, should provide next functions:
+#         is_supported_platform: is current platform supported
 #
-#     installmaster -- manager, should provide next functions:
-#         remove -- remove script
-#         install -- install script
-#         is_installed -- check if the script is already installed
+#     installmaster: manager, should provide next functions:
+#         remove: remove script
+#         install: install script
+#         is_installed: check if the script is already installed
+#
 
 
 def remove():

@@ -3,6 +3,8 @@
 Package is needed to search such query: 'property1.property2.property3'
 with in json or python dictionary.
 
+Does not use to find list element by index: returns 'None'
+
 """
 
 import json
@@ -27,20 +29,24 @@ def get_property(obj, search_query, sep='.'):
 
     Returns:
         None: returns 'None' if property does not exists.
+            returns 'None' if parameters are not valid.
         Value: returns 'Value' if property does exists.
 
     """
 
-    container = obj
-    targets = search_query.split(sep)
+    try:
+        container = obj
+        targets = search_query.split(sep)
 
-    for target in targets:
-        if isinstance(container, dict) and target in container:
-            container = container[target]
-        else:
-            return None
+        for target in targets:
+            if isinstance(container, dict) and target in container:
+                container = container[target]
+            else:
+                return None
 
-    return container
+        return container
+    except:
+        return None
 
 
 def get_property_from_json(json_str, search_query, sep='.'):
@@ -63,9 +69,12 @@ def get_property_from_json(json_str, search_query, sep='.'):
 
         Returns:
             None: returns 'None' if property does not exists.
+                returns 'None' if parameters are not valid.
             Value: returns 'Value' if property does exists.
 
     """
-
-    obj = json.loads(json_str)
-    return get_property(obj, search_query, sep)
+    try:
+        obj = json.loads(json_str)
+        return get_property(obj, search_query, sep)
+    except:
+        return None
