@@ -1,4 +1,5 @@
 import argparse
+import os
 
 from utils.managers import install_master, os_check_manager, test_master
 
@@ -35,7 +36,11 @@ def install():
 
     """
     if not install_master.is_installed():
-        install_master.install()
+        install_master.install(
+            {
+                'app_location': os.path.dirname(os.path.abspath(__file__))
+            }
+        )
 
 
 def test():
@@ -79,11 +84,9 @@ def setup():
 
         if arguments.test:
             test()
-
-        if arguments.remove:
+        elif arguments.remove:
             remove()
-
-        if not arguments.remove:
+        elif not arguments.remove:
             install()
 
 if __name__ == "__main__":

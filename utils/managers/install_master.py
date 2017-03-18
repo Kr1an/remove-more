@@ -1,6 +1,7 @@
 import os
 
-from utils.managers import config_manager
+from utils.managers import config_manager, app_config_manager
+from utils.helpers.property_reader import *
 
 
 def is_installed():
@@ -36,10 +37,19 @@ def remove():
         print(e)
 
 
-def install():
-    """Install script to .bashrc"""
+def install(install_config):
+    """Install Function
+
+    Installing script to bash. Setting up app_config properties
+
+    Args:
+        install_config: dict of extra installing params:
+            'app_base_dir': '<path ot app base directory>'
+
+    """
 
     os.system(get_install_script())
+    init_config_files(install_config)
 
 
 def get_install_script():
@@ -51,11 +61,23 @@ def get_install_script():
             os.path.abspath(
                 os.path.join(
                     os.path.dirname(__file__),
-                    *config_manager.get_property(
-                        'controller.relative_path_components'
-                    )
+                    *[
+                        '..',
+                        'controller.py'
+                    ]
                 )
             )
         )
     )
+
+
+def init_config_files(init_config):
+    """Initialize Function
+
+    Initialize app_config, config, config_default
+
+    """
+
+    app_config_manager.initialize()
+    config_manager.initialize()
 

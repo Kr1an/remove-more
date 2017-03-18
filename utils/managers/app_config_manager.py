@@ -23,3 +23,10 @@ def get_property(search_query):
         return None
 
     return property_reader.get_property(app_config, search_query)
+
+
+def initialize():
+    pass
+
+def setert(property):
+    pass
