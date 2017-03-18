@@ -166,5 +166,3 @@ class PropertyReaderTestCase(unittest.TestCase):
             None,
             msg="Should return <None> if some parameter is wrong type."
         )
-
-

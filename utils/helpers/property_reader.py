@@ -28,9 +28,9 @@ def get_property(obj, search_query, sep='.'):
             Default: '.'(point)
 
     Returns:
-        None: returns 'None' if property does not exists.
-            returns 'None' if parameters are not valid.
-        Value: returns 'Value' if property does exists.
+        Returned Value: 'None' if property does not exist of
+                parameters are not valid. Otherwise return
+                'Value' if property does exist.
 
     """
 
@@ -50,7 +50,7 @@ def get_property(obj, search_query, sep='.'):
 
 
 def get_property_from_json(json_str, search_query, sep='.'):
-    """Get Property function
+    """Get Property From Json function
 
         Function's needed to find properties
         with search query within json.
@@ -68,9 +68,9 @@ def get_property_from_json(json_str, search_query, sep='.'):
                 Default: '.'(point)
 
         Returns:
-            None: returns 'None' if property does not exists.
-                returns 'None' if parameters are not valid.
-            Value: returns 'Value' if property does exists.
+            Returned Value: 'None' if property does not exist of
+                parameters are not valid. Otherwise return json
+                representation of 'Value' if property does exist.
 
     """
     try:
