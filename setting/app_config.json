@@ -1,8 +1,12 @@
 {
     "config": {
-      "default_path": "",
-      "path": ""
+        "use_custom": false,
+        "path": {
+            "default": "",
+            "custom": ""
+        }
     },
+    "app_location": "",
     "author": "Kr1an@hotmail.com",
     "version": "0.0.1",
     "supported_platforms": [
