@@ -1,26 +1,31 @@
+""" Setup Module
+
+Module is used to execute project installation,
+test running and program removing.
+
+Example:
+    write python setup.py --help to get help about command line arguments.
+
+Dependencies:
+    os_check_manager: manager, should provide next functions:
+        is_supported_platform: is current platform supported
+
+    install_master: manager, should provide next functions:
+        remove: remove script
+        install: install script
+        is_installed: check if the script is already installed
+"""
+
 import argparse
 import os
 
 from utils.managers import install_master, os_check_manager, test_master
 
 
-#
-# Used modules:
-#
-#     oscheckmanager: manager, should provide next functions:
-#         is_supported_platform: is current platform supported
-#
-#     installmaster: manager, should provide next functions:
-#         remove: remove script
-#         install: install script
-#         is_installed: check if the script is already installed
-#
-
-
 def remove():
     """Remove function.
 
-    Run installmaster(manger of install/remove commands) remove method to
+    Run install_master(manger of install/remove commands) remove method to
     reinstall(remove) script from memory.
 
     """
@@ -31,7 +36,7 @@ def remove():
 def install():
     """Install function.
 
-    Run installmaster(manger of install/remove commands) install method to
+    Run install_master(manger of install/remove commands) install method to
     install(bind) script to memory.
 
     """
@@ -46,7 +51,7 @@ def install():
 def test():
     """Start test function
 
-    Run test case command in testmaster(manager)
+    Run test case command in test_master(manager)
     that search for unittest class cases.
 
     """
@@ -91,5 +96,4 @@ def setup():
             install()
 
 if __name__ == "__main__":
-    # Start point for cmd execution
     setup()

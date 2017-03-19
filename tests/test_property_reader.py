@@ -1,3 +1,17 @@
+""" Property Reader Unit Tests.
+
+This module is a test case for module utils.helpers.property_reader.
+It test functionality of:
+    * def get_property().
+    * def get_property_from_json().
+
+Example:
+    write 'python setup.py -t' in terminal.
+
+Test Module is finished.
+
+"""
+
 import unittest
 
 import os

@@ -1,3 +1,16 @@
+"""App Config Manager
+
+Module offer access with both read/write modes to app configuration file.
+This config manager stands in the top of config managers hierarchy.
+
+Example:
+    app_config_manager.set_property('name.short', ')
+
+According to fact, that almost all functionality stands on
+property_reader, property_writer. Read documentation of this modules to
+understand how AppConfigManager works.
+
+"""
 import os
 import json
 

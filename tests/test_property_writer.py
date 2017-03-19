@@ -1,3 +1,16 @@
+""" Property Writer Unit Tests.
+
+This module is a test case for module utils.helpers.property_writer.
+It test functionality of:
+    * def set_property().
+    * def set_property_from_json().
+
+Example:
+    write 'python setup.py -t' in terminal.
+
+Test Module is finished.
+
+"""
 import unittest
 
 import os

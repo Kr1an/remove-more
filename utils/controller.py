@@ -1,3 +1,10 @@
+""" Controller Module.
+
+This module is a controller to handle script
+tasks with different command line arguments.
+This is the main execution module.
+
+"""
 import argparse
 import os
 

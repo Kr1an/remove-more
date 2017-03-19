@@ -1,11 +1,27 @@
+""" Install Master Module.
+
+Module offers all management functionality
+with removing, installing, checking of project script.
+
+Example:
+    install_master.is_installed()
+
+Uses user_config_manager, app_config_manager
+as a base of it's functionality.
+
+"""
 import os
 
 from utils.managers import user_config_manager, app_config_manager
-from utils.helpers.property_reader import *
 
 
 def is_installed():
-    """Check script existing"""
+    """Is Installed Function.
+
+    Check script existing by reading ~/.bashrc
+    file and finding script line there.
+
+    """
     try:
         with open(os.path.expanduser('~' + os.sep + '.bashrc')) as f:
             script = 'alias {}'.format(
@@ -73,7 +89,7 @@ def get_install_script():
 def init_config_files(init_config={}):
     """Initialize Function
 
-    Initialize app_config, config, config_default
+    Initialize app_config_manager, user_config_manager
 
     """
 

@@ -1,3 +1,17 @@
+"""User Config Manager
+
+Module offer access with both read/write modes to user configuration file.
+This config manager stands after ApplicationConfigurationFile in hierarchy
+of config managers
+
+Example:
+    user_config_manager.get_property('name.short')
+
+According to fact, that almost all functionality stands on
+property_reader, property_writer. Read documentation of this modules to
+understand how UserConfigManager works.
+
+"""
 import json
 
 from utils.helpers import property_reader, property_writer
