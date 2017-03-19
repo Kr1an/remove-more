@@ -24,10 +24,8 @@ def is_installed():
     """
     try:
         with open(os.path.expanduser('~' + os.sep + '.bashrc')) as f:
-            script = 'alias {}'.format(
-                user_config_manager.get_property('name.short')
-            )
-            check_lines = (line.startswith(script) for line in f)
+            part_of_script = '/remove-more/utils/controller.py'
+            check_lines = (part_of_script in line for line in f)
             return any(check_lines)
     except Exception as e:
         print(e)
@@ -47,11 +45,9 @@ def remove():
 
     try:
         with open(os.path.expanduser('~' + os.sep + '.bashrc'), 'w') as f:
-            script = 'alias {}'.format(
-                user_config_manager.get_property('name.short')
-            )
+            part_of_script = '/remove-more/utils/controller.py'
             for line in lines:
-                if script not in line:
+                if part_of_script not in line:
                     f.write(line)
     except Exception as e:
         print(e)
