@@ -64,6 +64,7 @@ def setup():
         default: execute install script.
 
     """
+    install_master.init_config_files()
     if os_check_manager.is_supported_platform():
         arguments_parser = argparse.ArgumentParser()
         arguments_parser.add_argument(

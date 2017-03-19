@@ -1,6 +1,6 @@
 import os
 
-from utils.managers import config_manager, app_config_manager
+from utils.managers import user_config_manager, app_config_manager
 from utils.helpers.property_reader import *
 
 
@@ -9,7 +9,7 @@ def is_installed():
     try:
         with open(os.path.expanduser('~' + os.sep + '.bashrc')) as f:
             script = 'alias {}'.format(
-                config_manager.get_property('name.short')
+                user_config_manager.get_property('name.short')
             )
             check_lines = (line.startswith(script) for line in f)
             return any(check_lines)
@@ -28,7 +28,7 @@ def remove():
     try:
         with open(os.path.expanduser('~' + os.sep + '.bashrc'), 'w') as f:
             script = 'alias {}'.format(
-                config_manager.get_property('name.short')
+                user_config_manager.get_property('name.short')
             )
             for line in lines:
                 if script not in line:
@@ -55,7 +55,7 @@ def get_install_script():
     """Generate bash command to install script"""
 
     return 'echo alias {}=\\\"{}\\\" >> ~/.bashrc'.format(
-        config_manager.get_property('name.short'),
+        user_config_manager.get_property('name.short'),
         'python {}'.format(
             os.path.abspath(
                 os.path.join(
@@ -78,6 +78,6 @@ def init_config_files(init_config={}):
     """
 
     app_config_manager.initialize()
-    config_manager.initialize()
-    app_config_manager.set_property('user_config.use_custom')
-    config_manager.initialize()
+    user_config_manager.initialize()
+    app_config_manager.set_property('user_config.use_custom', True)
+    user_config_manager.initialize()
