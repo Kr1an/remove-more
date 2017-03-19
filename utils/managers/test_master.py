@@ -15,5 +15,9 @@ import os
 
 
 def run_tests():
-    """Tests runner function"""
+    """Run Tests Function.
+
+    Run unittest in default mode.
+
+    """
     os.system("python -m unittest discover -v -s './tests'")

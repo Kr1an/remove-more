@@ -1,9 +1,20 @@
-"""Package to search in obj, json for properties
+"""Property Writer.
 
-Package is needed to search such query: 'property1.property2.property3'
-with in json or python dictionary.
+Module is offer possibility to change python dict/json string by
+property chaining: 'property1.property2.property3'.
 
-Does not use to find list element by index: returns 'None'
+Example:
+    property_writer.set_property({
+            "geometry" : {
+                "northeast" : {
+                    "lat" : 17.4677999,
+                    "lng" : -83.06210009999999
+                }
+            }
+        }, 'geometry.northeast.lat', '12', sep='.') returns same object
+        with geometry.northeast.lat == '12'.
+
+Does not use to find list element by index: returns 'None'.
 
 """
 

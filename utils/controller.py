@@ -10,6 +10,13 @@ import os
 
 
 def main():
+    """Main Controller function
+    
+    It's start point for script execution.
+    Handles all command line arguments and run other functionality according
+    to arguments
+    
+    """
     arguments_parser = argparse.ArgumentParser()
     arguments_parser.add_argument(
         "-hw",

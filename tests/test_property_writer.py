@@ -8,7 +8,11 @@ It test functionality of:
 Example:
     write 'python setup.py -t' in terminal.
 
+Attributes:
+    TEST_FILE_PATH: file with json 'some' mock date for tests.
+
 Test Module is finished.
+Find particular test class or test in is's name(title).
 
 """
 import unittest
@@ -16,7 +20,6 @@ import unittest
 import os
 from utils.helpers.property_writer import *
 from utils.helpers.property_reader import *
-
 
 TEST_FILE_PATH = \
     os.path.abspath(

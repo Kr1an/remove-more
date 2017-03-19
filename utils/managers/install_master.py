@@ -34,7 +34,11 @@ def is_installed():
 
 
 def remove():
-    """Remove script from .bashrc"""
+    """Remove Function
+
+    Remove script from .bashrc.
+
+    """
     try:
         with open(os.path.expanduser('~' + os.sep + '.bashrc'), 'r') as f:
             lines = f.readlines()
@@ -68,8 +72,14 @@ def install(install_config={}):
 
 
 def get_install_script():
-    """Generate bash command to install script"""
+    """Get Install Script Function.
 
+    Generate bash command to install script
+
+    Returns:
+        Install script code body(type == str)
+
+    """
     return 'echo alias {}=\\\"{}\\\" >> ~/.bashrc'.format(
         user_config_manager.get_property('name.short'),
         'python {}'.format(
@@ -89,7 +99,11 @@ def get_install_script():
 def init_config_files(init_config={}):
     """Initialize Function
 
-    Initialize app_config_manager, user_config_manager
+    Initialize app_config_manager, user_config_manager.
+
+    Attributes:
+        init_config is dict with init configuration options.
+        It's not necessary attribute.
 
     """
 
