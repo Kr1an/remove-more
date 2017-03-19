@@ -68,7 +68,6 @@ def set_property(obj, search_query, value, sep='.'):
         else:
             return None
     except Exception as e:
-        print(e)
         return None
 
 
@@ -106,5 +105,4 @@ def set_property_from_json(json_str, search_query, value, sep='.'):
 
         return json.dumps(result) if result is not None else None
     except Exception as e:
-        print(e)
         return None

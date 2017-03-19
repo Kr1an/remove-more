@@ -56,7 +56,6 @@ def get_property(obj, search_query, sep='.'):
 
         return container
     except Exception as e:
-        print(e)
         return None
 
 
@@ -88,5 +87,4 @@ def get_property_from_json(json_str, search_query, sep='.'):
         obj = json.loads(json_str)
         return get_property(obj, search_query, sep)
     except Exception as e:
-        print(e)
         return None

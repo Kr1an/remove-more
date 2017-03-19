@@ -21,7 +21,7 @@ import setup
 class SetupTestCase(unittest.TestCase):
     def setUp(self):
         self.scripts = {
-            'is_installed': 'cat ~/.bashrc | grep remove-more/utils/controller',
+            'is_installed': 'cat ~/.bashrc | grep remove-more/utils/controller >> /dev/null',
             'install':
                 'echo "alias .../remove-more/utils/controller.py" >> ~/.bashrc'
         }
