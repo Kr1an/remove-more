@@ -96,3 +96,6 @@ ENV/
 
 # IDE
 .idea
+
+# custom
+setting/*.json
