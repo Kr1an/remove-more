@@ -37,7 +37,7 @@ def remove():
         print(e)
 
 
-def install(install_config):
+def install(install_config={}):
     """Install Function
 
     Installing script to bash. Setting up app_config properties
@@ -49,7 +49,6 @@ def install(install_config):
     """
 
     os.system(get_install_script())
-    init_config_files(install_config)
 
 
 def get_install_script():
@@ -71,7 +70,7 @@ def get_install_script():
     )
 
 
-def init_config_files(init_config):
+def init_config_files(init_config={}):
     """Initialize Function
 
     Initialize app_config, config, config_default
@@ -80,4 +79,5 @@ def init_config_files(init_config):
 
     app_config_manager.initialize()
     config_manager.initialize()
-
+    app_config_manager.set_property('user_config.use_custom')
+    config_manager.initialize()
