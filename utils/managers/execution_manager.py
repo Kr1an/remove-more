@@ -1,4 +1,4 @@
-from utils.commands import delete_command, restore_command
+from commands import delete_command, restore_command
 
 
 def execute_command(paths, options):

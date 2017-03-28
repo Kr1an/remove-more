@@ -5,7 +5,7 @@ tasks with different command line arguments.
 This is the main execution module.
 
 """
-from utils.managers import argument_manager, execution_manager
+from managers import argument_manager, execution_manager
 
 
 def main():

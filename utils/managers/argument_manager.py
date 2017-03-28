@@ -17,7 +17,8 @@ def get_options(arguments):
     # Some staff to get different options goes here
     mock = {
         'mods': [
-            'remove'
+            'remove',
+            'with_no_bin'
         ],
         "prop1": True,
         "prop2": 42,
