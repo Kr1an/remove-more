@@ -57,9 +57,9 @@ def copy(src, dest, options=None):
         """
     try:
         if os.path.isdir(src):
-            shutil.copytree(src)
-        else:
             shutil.copytree(src, dest)
+        else:
+            shutil.copy(src, dest)
         return 0
     except Exception as e:
         print(e)
