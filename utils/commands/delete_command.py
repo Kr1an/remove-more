@@ -17,13 +17,14 @@ from utils.helpers import clean_path
 from utils.managers import user_config_manager, bin_config_manager
 
 
-def delete(paths, options):
-    """Copy Function
+def delete(paths, options=None):
+    """Delete Function
 
-    Function allow copy bin folder by path.
+    Function allow to delete file/dirs by paths
+    in different mods.
 
     Parameters:
-        path: where to copy.
+        paths: where to copy.
         options: list of copy politics.
 
     Returns:
@@ -33,43 +34,49 @@ def delete(paths, options):
     try:
         del_paths = _get_del_paths(paths, options)
         if 'with_no_bin' not in options['mods']:
-            _copy_to_bin(del_paths)
-        _delete(del_paths)
+            _copy_to_bin(del_paths, options)
+        _delete(del_paths, options)
         return 0
     except Exception as e:
         print(e)
         return 1
 
 
-def _copy_to_bin(paths):
-    """Copy Function
+def _copy_to_bin(paths, options=None):
+    """Copy To Function
+    
+    Do not use this function outside of module.
 
     Function allow copy bin folder by path.
 
     Parameters:
-        path: where to copy.
+        paths: what to copy.
         options: list of copy politics.
 
-    Returns:
-        value: 0 - successful, 1 - fail.
 
     """
     for path in paths:
-        clean_path.copy(path, user_config_manager.get_property('bin_path'))
-        bin_config_manager.history_add(path)
+        clean_path.copy(
+            path, user_config_manager.get_property('bin_path'),
+            options
+        )
+        bin_config_manager.history_add(path, options)
 
 
-def _get_del_paths(paths, options):
+def _get_del_paths(paths, options=None):
     """Copy Function
+    
+    Do not use this function outside of module.
 
-    Function allow copy bin folder by path.
+    Function get paths and find regex in it, expend list and
+    return expended array of paths.
 
     Parameters:
-        path: where to copy.
+        paths: paths to expend.
         options: list of copy politics.
-
+    
     Returns:
-        value: 0 - successful, 1 - fail.
+        value: list of valid paths.
 
     """
     deleting_list = set([val for path in paths for val in glob.glob(path)])
@@ -77,18 +84,17 @@ def _get_del_paths(paths, options):
     return deleting_list
 
 
-def _delete(paths):
-    """Copy Function
+def _delete(paths, options=None):
+    """Delete Function
+    
+    Do not use this function outside of module.
 
-    Function allow copy bin folder by path.
+    Function deletes every path of paths.
 
     Parameters:
-        path: where to copy.
-        options: list of copy politics.
-
-    Returns:
-        value: 0 - successful, 1 - fail.
+        paths: what to delete.
+        options: list of delete politics.
 
     """
     for path in paths:
-        clean_path.delete(path)
+        clean_path.delete(path, options)
