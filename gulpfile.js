@@ -21,7 +21,7 @@ gulp.task('backup', function(){
 
 })
 gulp.task('watch', function() {
-  gulp.watch(['**/*'],
+  gulp.watch(['**/*', '!tests/**/*', 'tests/**/*.py', 'tests/**/*.json'],
   ['backup']);
 });
 gulp.task('default', ['backup'], function() {
