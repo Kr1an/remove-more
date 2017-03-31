@@ -31,8 +31,9 @@ def execute_command(paths=[], options=None):
     Execute commands in place after argument_manager.
 
     Args:
-       paths: possible list of given paths to delete or restore.
-       options: possible object with settings(mods) of needed command.
+        paths: possible list of given paths to delete or restore. Do not use
+            this argument to pass path to some location(ex. path to create bin)
+        options: possible object with settings(mods) of needed command.
 
     """
     if 'remove' in options['mods']:
