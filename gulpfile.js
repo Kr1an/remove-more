@@ -11,11 +11,11 @@ var pathToBackup = '../remove-more-backup';
 
 
 gulp.task('backup', function(){
-    return gulp.src(['**/*', '!**/*.py___jb_tmp___'])
+    return gulp.src(['**/*'])
         .pipe(gulp.dest(pathToBackup))
 })
 gulp.task('watch', function() {
-  gulp.watch('**/*',
+  gulp.watch(['**/*', '!tests/mock/*'],
   ['backup']);
 });
 gulp.task('default', ['backup'], function() {
