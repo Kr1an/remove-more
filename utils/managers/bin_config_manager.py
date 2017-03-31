@@ -22,7 +22,14 @@ from utils.helpers import clean_path
 from setting import DEFAULT_CONFIGS
 
 
-def empty_bin(options=None):
+def history_get(bin_name, options=None):
+    for history_item in get_property('history'):
+        if history_item['bin_name'] == bin_name:
+            return history_item
+    return None
+
+
+def history_empty(options=None):
     for history_item in get_property('history'):
         history_del(history_item['bin_name'])
 
@@ -35,7 +42,7 @@ def history_add(src, options=None):
     set_property('history', get_property('history') + [history_item])
 
 
-def history_del(bin_name, options):
+def history_del(bin_name, options=None):
     set_property(
         'history',
         [i for i in get_property('history') if i['bin_name'] != bin_name]
