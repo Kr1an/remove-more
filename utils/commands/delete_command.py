@@ -1,10 +1,9 @@
-"""Bin Command Module.
+"""Delete Command Module.
 
-Module offers possibility to work with bin structure.
-Copy, Move, Empty it.
+Module offers possibility to work with delete functionality.
 
 Example:
-    bin_command.move_bin(path, options)
+    delete_command.delete(path, options)
 
 Todo:
     * add option upgrade with different politics.
@@ -43,7 +42,7 @@ def delete(paths, options=None):
 
 
 def _copy_to_bin(paths, options=None):
-    """Copy To Function
+    """Copy To Bin Function
     
     Do not use this function outside of module.
 
@@ -64,7 +63,7 @@ def _copy_to_bin(paths, options=None):
 
 
 def _get_del_paths(paths, options=None):
-    """Copy Function
+    """Get Del Paths
     
     Do not use this function outside of module.
 
