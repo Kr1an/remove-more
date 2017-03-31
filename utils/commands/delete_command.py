@@ -32,8 +32,7 @@ def delete(paths, options=None):
     """
     try:
         del_paths = _get_del_paths(paths, options)
-        if 'with_no_bin' not in options['mods']:
-            _copy_to_bin(del_paths, options)
+        _copy_to_bin(del_paths, options)
         _delete(del_paths, options)
         return 0
     except Exception as e:
