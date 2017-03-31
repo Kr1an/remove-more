@@ -54,7 +54,7 @@ def _move_from_bin(paths, options=None):
 
     """
     for path in paths:
-        clean_path.copy(
+        clean_path.move(
             os.path.join(
                 user_config_manager.get_property('bin_path'),
                 bin_config_manager.history_get(path, options)['bin_name']
@@ -65,7 +65,7 @@ def _move_from_bin(paths, options=None):
             ),
             options
         )
-        bin_config_manager.history_add(path, options)
+        bin_config_manager.history_del(path, options)
 
 
 def _get_restore_paths(paths, options=None):
