@@ -25,6 +25,7 @@ import shutil
 
 from utils.helpers import clean_path
 from utils.managers import user_config_manager, app_config_manager, bin_config_manager
+from utils.commands import bin_command
 
 TEST_FOLDER_PATH = \
     os.path.abspath(
@@ -65,7 +66,17 @@ class BinCommandTestCase(unittest.TestCase):
         bin_config_manager.set_property('history', self.real_bin_history)
 
     def test_initial_structure(self):
-        pass
+        self.assertTrue(os.path.exists(self.test_bin_path), "Initial Structure Exception.")
+        self.assertEqual(
+            user_config_manager.get_property('bin_path'),
+            self.test_bin_path,
+            msg="Test bin does not exists."
+        )
+        self.assertEqual(
+            len(bin_config_manager.get_property('history')),
+            0,
+            msg="Initial Exception: len should equal to 0."
+        )
 
     def test_move_bin(self):
         pass
@@ -74,7 +85,60 @@ class BinCommandTestCase(unittest.TestCase):
         pass
 
     def test_empty_bin(self):
-        pass
+        file_1 = os.path.join(self.test_folder_path, 'file_1')
+        os.mknod(file_1)
+        bin_config_manager.history_add(file_1)
+        clean_path.move(file_1, user_config_manager.get_property('bin_path'))
+        self.assertTrue(
+            os.path.exists(
+                os.path.join(
+                    user_config_manager.get_property('bin_path'),
+                    'file_1'
+                )
+            )
+        )
+        self.assertFalse(os.path.exists(file_1), msg="File should be in bin.")
+        self.assertEqual(
+            bin_config_manager.history_get('file_1')['src_dir'],
+            os.path.dirname(file_1),
+            msg="Initial preparations fails."
+        )
+        self.assertEqual(
+            bin_command.empty_bin(),
+            0,
+            msg='Bin command should return success code: 0.'
+        )
+        self.assertFalse(
+            os.path.exists(
+                os.path.join(
+                    user_config_manager.get_property('bin_path'),
+                    'file_1'
+                )
+            )
+        )
+        self.assertEqual(
+            len(bin_config_manager.get_property('history')),
+            0
+        )
 
     def test_create_bin(self):
-        pass
+        file_1 = os.path.join(self.test_folder_path, 'file_1')
+        os.mknod(file_1)
+        clean_path.move(file_1, user_config_manager.get_property('bin_path'))
+        bin_config_manager.history_add(file_1)
+        new_bin_location = os.path.join(self.test_folder_path, 'new_bin_location')
+        self.assertEqual(
+            bin_command.create_bin(new_bin_location),
+            0,
+            msg='Bin command should return success code: 0.'
+        )
+        self.assertEqual(
+            len(bin_config_manager.get_property('history')),
+            0,
+            msg="New bin should be empty."
+        )
+        self.assertEqual(
+            user_config_manager.get_property('bin_path'),
+            new_bin_location,
+            msg="New path should be writen to user config file"
+        )
