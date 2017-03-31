@@ -1,2 +1,94 @@
-def restore(paths, options):
-    pass
+"""Restore Command Module.
+
+Module offers possibility to work with restore functionality.
+
+Example:
+    restore_command.restore(path, options)
+
+Todo:
+    * add option upgrade with different politics.
+    * write unittests
+    
+"""
+import os
+import glob
+
+from utils.helpers import clean_path
+from utils.managers import user_config_manager, bin_config_manager
+
+
+def restore(paths, options=None):
+    """Restore Function
+
+    Function allow to restore file/dirs by paths
+    in different mods.
+
+    Parameters:
+        paths: what to restore.
+        options: list of restore politics.
+
+    Returns:
+        value: 0 - successful, 1 - fail.
+
+    """
+    try:
+        restore_paths = _get_restore_paths(paths, options)
+        _move_from_bin(restore_paths, options)
+        return 0
+    except Exception as e:
+        print(e)
+        return 1
+
+
+def _move_from_bin(paths, options=None):
+    """Copy From Bin Function
+
+    Do not use this function outside of module.
+
+    Function allow copy bin files to destination.
+
+    Parameters:
+        paths: what to copy.
+        options: list of copy politics.
+
+
+    """
+    for path in paths:
+        clean_path.move(
+            os.path.join(
+                user_config_manager.get_property('bin_path'),
+                bin_config_manager.history_get(path, options)['bin_name']
+            ),
+            os.path.join(
+                bin_config_manager.history_get(path, options)['src_dir'],
+                bin_config_manager.history_get(path, options)['bin_name'],
+            ),
+            options
+        )
+        bin_config_manager.history_del(path, options)
+
+
+def _get_restore_paths(paths, options=None):
+    """Get Restore Paths
+
+    Do not use this function outside of module.
+
+    Function get paths and find regex in it, expend list and
+    return expended array of paths.
+
+    Parameters:
+        paths: paths to expend.
+        options: list of copy politics.
+
+    Returns:
+        value: list of valid paths.
+
+    """
+    deleting_list = set([val for path in paths for val in glob.glob(path)])
+    deleting_list = [os.path.abspath(rel_path) for rel_path in deleting_list]
+    return [
+        os.path.relpath(
+            path,
+            user_config_manager.get_property('bin_path')
+        ) for path in deleting_list
+    ]

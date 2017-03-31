@@ -67,7 +67,13 @@ def initialize():
     _set_properties([
         {
             'key': 'bin_path',
-            'value': os.path.abspath(os.path.join('', 'Public', 'rrbin'))
+            'value': os.path.abspath(
+                os.path.join(
+                    os.path.expanduser('~'),
+                    'Public',
+                    'rrbin'
+                )
+            )
         }
     ])
 
