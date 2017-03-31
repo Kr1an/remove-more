@@ -79,10 +79,55 @@ class BinCommandTestCase(unittest.TestCase):
         )
 
     def test_move_bin(self):
-        pass
+        file_1 = os.path.join(self.test_folder_path, 'file_1')
+        bin_move_path = os.path.join(self.test_folder_path, 'bin_move_path')
+        os.mknod(file_1)
+        bin_config_manager.history_add(file_1)
+        clean_path.move(file_1, user_config_manager.get_property('bin_path'))
+        self.assertEqual(
+            bin_command.move_bin(bin_move_path),
+            0
+        )
+        self.assertFalse(
+            os.path.exists(os.path.join(self.test_bin_path, 'file_1'))
+        )
+        self.assertTrue(
+            os.path.exists(os.path.join(bin_move_path, 'file_1'))
+        )
+        self.assertEqual(
+            user_config_manager.get_property('bin_path'),
+            bin_move_path
+        )
+        self.assertEqual(
+            len(bin_config_manager.get_property('history')),
+            1
+        )
+
+
 
     def test_copy_bin(self):
-        pass
+        file_1 = os.path.join(self.test_folder_path, 'file_1')
+        bin_copy_path = os.path.join(self.test_folder_path, 'bin_copy_path')
+        os.mknod(file_1)
+        bin_config_manager.history_add(file_1)
+        clean_path.move(file_1, user_config_manager.get_property('bin_path'))
+        self.assertEqual(
+            bin_command.copy_bin(bin_copy_path),
+            0,
+            msg="Should return success code: 0."
+        )
+        self.assertEqual(
+            len(bin_config_manager.get_property('history')),
+            1,
+        )
+        self.assertTrue(
+            os.path.exists(os.path.join(bin_copy_path, 'file_1')),
+            msg="Should copy innear files too"
+        )
+        self.assertEqual(
+            user_config_manager.get_property('bin_path'),
+            self.test_bin_path
+        )
 
     def test_empty_bin(self):
         file_1 = os.path.join(self.test_folder_path, 'file_1')
