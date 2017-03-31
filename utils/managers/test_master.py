@@ -37,6 +37,7 @@ def pre_test_processing():
     Prepare System before tests
 
     """
+    os.system('gulp backup')
     test_helper['is_already_installed'] = install_master.is_installed()
     install_master.remove()
 

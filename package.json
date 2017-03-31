@@ -1,0 +1,19 @@
+{
+    "name": "remove-more",
+    "version": "",
+    "description": "remove-more npm",
+    "main": "",
+    "directories": {},
+    "scripts": {},
+    "repository": {},
+    "author": "",
+    "license": "ISC",
+    "homepage": "",
+    "devDependencies": {
+        "del": "^2.2.2",
+        "gulp": "^3.9.1",
+        "gulp-rename": "^1.2.2",
+        "gulp-sourcemaps": "^2.4.1",
+        "gulp-watch": "^4.3.11"
+    }
+}

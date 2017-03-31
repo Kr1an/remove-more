@@ -15,6 +15,10 @@ This module is maintainable, and could be changed and extended.
 """
 
 APP_CONFIG = {
+    "name": {
+        "short": "rr",
+        "normal": "RemoveRestore",
+    },
     "supported_platforms": [
         "linux",
         "linux2"
@@ -28,13 +32,17 @@ APP_CONFIG = {
         "use_custom": False
     },
     "app_location": "",
-    "author": "kr1an@hotmail.com"
+    "author": "kr1an@hotmail.com",
+    "bin_config": {
+        "path": ""
+    }
 }
 
 USER_CONFIG = {
-    "name": {
-        "short": "rr",
-        "normal": "RemoveRestore",
-    }
+    "bin_path": ""
+}
+
+BIN_CONFIG = {
+    "history": []
 }
 

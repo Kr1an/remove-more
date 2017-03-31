@@ -1,7 +1,7 @@
-""" Property Reader Unit Tests.
+"""Clean Path Unit Tests.
 
-This module is a test case for module utils.helpers.property_reader.
-It test functionality of:
+This module is a test case for module utils.helpers.clean_path.
+It tests functionality of:
     * def move().
     * def delete().
     * def copy().

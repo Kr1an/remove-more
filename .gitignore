@@ -99,3 +99,4 @@ ENV/
 
 # custom
 setting/*.json
+node_modules

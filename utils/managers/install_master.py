@@ -13,6 +13,7 @@ as a base of it's functionality.
 import os
 
 from utils.managers import user_config_manager, app_config_manager
+from utils.managers import bin_config_manager
 
 
 def is_installed():
@@ -107,3 +108,4 @@ def init_config_files(init_config={}):
     user_config_manager.initialize()
     app_config_manager.set_property('user_config.use_custom', True)
     user_config_manager.initialize()
+    bin_config_manager.initialize()

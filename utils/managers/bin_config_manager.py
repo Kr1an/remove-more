@@ -17,7 +17,36 @@ import os
 
 from utils.helpers import property_reader, property_writer
 from utils.managers import app_config_manager
+from utils.managers import user_config_manager
+from utils.helpers import clean_path
 from setting import DEFAULT_CONFIGS
+
+
+def history_get(bin_name, options=None):
+    for history_item in get_property('history'):
+        if history_item['bin_name'] == bin_name:
+            return history_item
+    return None
+
+
+def history_empty(options=None):
+    for history_item in get_property('history'):
+        history_del(history_item['bin_name'])
+
+
+def history_add(src, options=None):
+    history_item = {
+        'src_dir': os.path.dirname(src),
+        'bin_name': os.path.basename(src)
+    }
+    set_property('history', get_property('history') + [history_item])
+
+
+def history_del(bin_name, options=None):
+    set_property(
+        'history',
+        [i for i in get_property('history') if i['bin_name'] != bin_name]
+    )
 
 
 def _get_config_path():
@@ -25,22 +54,12 @@ def _get_config_path():
 
     Do not use this function outside of this module.
 
-    Function get correct user config file path according
-    to app config.
-
     Returns:
         String value of file path.
         None if some exception occupies.
 
     """
-    use_custom_config = app_config_manager.get_property(
-        'user_config.use_custom'
-    )
-    search_query = 'user_config.path.{}'.format(
-        'custom' if use_custom_config else 'default'
-    )
-
-    return app_config_manager.get_property(search_query)
+    return app_config_manager.get_property('bin_config.path')
 
 
 def get_property(search_query):
@@ -59,17 +78,12 @@ def get_property(search_query):
 def initialize():
     """Initialize function.
 
-    Function to initialize bin_config.json while installing
+    Function to initialize app_config.json while installing
     programme. Add custom values to default config.
 
     """
     _set_default_config()
-    _set_properties([
-        {
-            'key': 'bin_path',
-            'value': os.path.abspath(os.path.join('', 'Public', 'rrbin'))
-        }
-    ])
+    _set_properties([])
 
 
 def _set_config(config):
@@ -150,7 +164,7 @@ def _set_default_config():
         Boolean that shows if config was changed.
 
     """
-    return _set_config(DEFAULT_CONFIGS.USER_CONFIG)
+    return _set_config(DEFAULT_CONFIGS.BIN_CONFIG)
 
 
 def _set_properties(props):
