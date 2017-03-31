@@ -1,6 +1,6 @@
-""" Property Reader Unit Tests.
+""" Bin Command Unit Tests.
 
-This module is a test case for module utils.helpers.property_reader.
+This module is a test case for module utils.commands.bin_command.
 It test functionality of:
     * def move_bin().
     * def copy_bin().
