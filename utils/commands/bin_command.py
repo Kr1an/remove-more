@@ -17,7 +17,7 @@ from utils.managers import bin_config_manager
 from utils.managers import user_config_manager
 
 
-def copy_bin(path, options):
+def copy_bin(path, options=None):
     """Copy Function
 
     Function allow copy bin folder by path.
@@ -38,7 +38,7 @@ def copy_bin(path, options):
         return 1
 
 
-def move_bin(path, options):
+def move_bin(path, options=None):
     """Move Function
 
     Function allow move bin folder by path with 
@@ -61,7 +61,7 @@ def move_bin(path, options):
         return 1
 
 
-def create_bin(path, options):
+def create_bin(path, options=None):
     """Create Function
 
         Function allow to create bin in new location with empty bin.
@@ -88,7 +88,7 @@ def create_bin(path, options):
         return 1
 
 
-def empty_bin(options):
+def empty_bin(options=None):
     """Copy Function
 
     Function allow to empty bin folder and history too.
