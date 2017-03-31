@@ -1,6 +1,6 @@
 # README #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+Follow this README document to get info about remove-more. How to set up it and how to use it
 
 ### What is this repository for? ###
 
