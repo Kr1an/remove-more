@@ -148,4 +148,3 @@ class RestoreCommandTestCase(unittest.TestCase):
                 )
             ])
         )
-g
