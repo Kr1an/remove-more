@@ -1,0 +1,27 @@
+{
+    "name": "remove-more",
+    "version": "1.0.0",
+    "description": "",
+    "main": "controller.py",
+    "directories": {
+        "test": "tests"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://AntonKrinitsyn@bitbucket.org/AntonKrinitsyn/remove-more.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "homepage": "https://bitbucket.org/AntonKrinitsyn/remove-more#readme",
+    "devDependencies": {
+        "del": "^2.2.2",
+        "gulp": "^3.9.1",
+        "gulp-rename": "^1.2.2",
+        "gulp-sourcemaps": "^2.4.1",
+        "gulp-watch": "^4.3.11",
+        "lox": 123
+    }
+}
