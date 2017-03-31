@@ -13,6 +13,7 @@ understand how UserConfigManager works.
 
 """
 import json
+import os
 
 from utils.helpers import property_reader, property_writer
 from utils.managers import app_config_manager
@@ -58,12 +59,17 @@ def get_property(search_query):
 def initialize():
     """Initialize function.
 
-    Function to initialize app_config.json while installing
+    Function to initialize bin_config.json while installing
     programme. Add custom values to default config.
 
     """
     _set_default_config()
-    _set_properties([])
+    _set_properties([
+        {
+            'key': 'bin_path',
+            'value': os.path.abspath(os.path.join('', 'Public', 'rrbin'))
+        }
+    ])
 
 
 def _set_config(config):

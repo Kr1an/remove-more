@@ -29,9 +29,7 @@ def create_bin(path, options):
 
 def empty_bin(options):
     try:
-        bin_location = user_config_manager.get_property('bin_path')
-        clean_path.delete(bin_location)
-        bin_config_manager.set_property('history', [])
+        bin_config_manager.empty_bin()
         return 0
     except Exception as e:
         print(e)

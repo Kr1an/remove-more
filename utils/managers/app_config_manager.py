@@ -68,6 +68,13 @@ def initialize():
                 os.path.dirname(APP_CONFIG_FILE_PATH),
                 'user_config_custom.json'
             )
+        },
+        {
+            'key': 'bin_config.path',
+            'value': os.path.join(
+                os.path.dirname(APP_CONFIG_FILE_PATH),
+                'bin_config.json'
+            )
         }
     ])
 
