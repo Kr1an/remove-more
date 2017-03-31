@@ -8,14 +8,20 @@ var gulp = require("gulp"),
 
 var pathToBackup = '../remove-more-backup';
 
+function onError(error){
+    console.error.bind(error);
+}
+
 
 
 gulp.task('backup', function(){
     return gulp.src(['**/*'])
+        .on('error', onError)
         .pipe(gulp.dest(pathToBackup))
+
 })
 gulp.task('watch', function() {
-  gulp.watch(['**/*', '!tests/mock/*'],
+  gulp.watch(['**/*'],
   ['backup']);
 });
 gulp.task('default', ['backup'], function() {
