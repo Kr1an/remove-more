@@ -1,6 +1,9 @@
-# README #
+# REMOVE-MORE UTILITY #
 
-Follow this README document to get info about remove-more. How to set up it and how to use it
+Follow this README document to get info about:
+* what is remove-more
+* How to set up
+* How to use remove-more
 
 ### What is this repository for? ###
 
