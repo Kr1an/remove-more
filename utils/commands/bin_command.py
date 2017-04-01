@@ -31,7 +31,10 @@ def copy_bin(path, options=None):
 
     """
     try:
-        clean_path.copy(user_config_manager.get_property('bin_path'), path)
+        clean_path.copy(
+            user_config_manager.get_property('bin_path'),
+            os.path.abspath(path)
+        )
         return 0
     except Exception as e:
         print(e)
@@ -53,8 +56,14 @@ def move_bin(path, options=None):
 
     """
     try:
-        clean_path.move(user_config_manager.get_property('bin_path'), path)
-        user_config_manager.set_property('bin_path', path)
+        clean_path.move(
+            user_config_manager.get_property('bin_path'),
+            os.path.abspath(path)
+        )
+        user_config_manager.set_property(
+            'bin_path',
+            os.path.abspath(path)
+        )
         return 0
     except Exception as e:
         print(e)
@@ -78,7 +87,7 @@ def create_bin(path, options=None):
     try:
         user_config_manager.set_property(
             'bin_path',
-            path
+            os.path.abspath(path)
         )
         bin_config_manager.history_empty()
         os.mkdir(user_config_manager.get_property('bin_path'))
