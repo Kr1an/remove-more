@@ -1,47 +1,45 @@
 import argparse
 
+from setting.DEFAULT_CONFIGS import ARGS_CONFIG
+
 
 def parse_arguments():
     arguments_parser = argparse.ArgumentParser()
     add_optional_arguments(arguments_parser)
     add_positional_arguments(arguments_parser)
     arguments = arguments_parser.parse_args()
-    return [get_paths(arguments), get_options(arguments)]
+    return [arguments.paths, _get_options(arguments)]
 
 
-def get_paths(arguments):
-    return arguments.paths
+def _get_options(arguments):
+    options = {'mods':[]}
+    conditions = [
+        (arguments.binmove, ['binmove']),
+        (arguments.bincopy, ['bincopy']),
+        (arguments.bincreate, ['bincreate']),
+        (arguments.binempty, ['binempty']),
+        (arguments.restore, ['restore']),
+        (not arguments.restore, ['remove'])
+    ]
 
+    for condition in conditions:
+        if condition[0]:
+            if type(condition[0])!=bool:
+                options.update({'path': condition[0]})
+            options['mods'] += condition[1]
+            break
 
-def get_options(arguments):
-    # Some staff to get different options goes here
-    mock = {
-        'mods': [
-            'remove',
-            'with_no_bin'
-        ],
-        "prop1": True,
-        "prop2": 42,
-        'prop3': 'hello, world'
-
-    }
-    options = _generate_options()
-    return options or mock
-
+    return options
 
 def add_optional_arguments(arguments_parser):
-    arguments_parser.add_argument(
-        "-hw",
-        "--hello_world",
-        default=False,
-        help="remove script",
-        action="store_true"
-    )
-
+    for argument in ARGS_CONFIG:
+        arguments_parser.add_argument(
+            argument['shortcut'],
+            argument['name'],
+            action=argument['action'],
+            help=argument['help']
+        )
 
 def add_positional_arguments(arguments_parser):
     arguments_parser.add_argument('paths', type=str, nargs='*')
 
-
-def _generate_options():
-    return None
