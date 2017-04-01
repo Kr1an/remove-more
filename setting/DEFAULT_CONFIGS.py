@@ -46,3 +46,37 @@ BIN_CONFIG = {
     "history": []
 }
 
+ARGS_CONFIG = [
+    {
+        "name": "--binmove",
+        "shortcut": '-bm',
+        "help": "Move bin folder to specific location <path>",
+        "action": "store"
+    },
+    {
+        "name": "--bincopy",
+        "shortcut": '-bcp',
+        "help": "Copy bin folder to specific location <path>",
+        "action": "store"
+
+    },
+    {
+        "name": "--bincreate",
+        "shortcut": '-bcr',
+        "help": "Create clean new bin folder by specific <path>",
+        "action": "store"
+    },
+    {
+        "name": "--binempty",
+        "shortcut": '-be',
+        "help": "Empty bin folder",
+        "action": "store_true"
+
+    },
+    {
+        "name": "--restore",
+        "shortcut": "-re",
+        "help": "Specify than <paths> is needed to be restored",
+        "action": "store_true"
+    }
+]
