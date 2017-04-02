@@ -84,6 +84,12 @@ ARGS_CONFIG = [
         "shortcut": "-bp",
         "help": "Print absolute path to bin folder",
         "action": "store_true"
+    },
+    {
+        "name": "--regex",
+        "shortcut": "-rex",
+        "help": "Check specific reg ex path",
+        "action": "store"
     }
 ]
 ERROR_MESSAGES = {

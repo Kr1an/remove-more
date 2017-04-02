@@ -77,7 +77,10 @@ def _get_del_paths(paths, options=None):
         value: list of valid paths.
 
     """
-    deleting_list = set([val for path in paths for val in glob.glob(path)])
+    if options and 'regex' in options:
+        deleting_list = glob.glob(options['regex'])
+    else:
+        deleting_list = set([val for path in paths for val in glob.glob(path)])
     deleting_list = [os.path.abspath(rel_path) for rel_path in deleting_list]
     return deleting_list
 
