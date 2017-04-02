@@ -89,5 +89,11 @@ ARGS_CONFIG = [
 ERROR_MESSAGES = {
     'bin_not_exists':
         'Bin folder does not exists. '
-        'Create one with \'--bincreate=../path_to_bin_folder/..\' command'
+        'Create one with \'--bincreate=../path_to_bin_folder/..\' command.',
+    'app_config_error':
+        "Application config is not valid. See --help to find solution.",
+    'user_config_error':
+        "Application config is not valid. See --help to find solution.",
+    'bin_config_error':
+        "Application config is not valid. See --help to find solution."
 }
