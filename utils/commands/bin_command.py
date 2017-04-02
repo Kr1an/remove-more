@@ -125,12 +125,13 @@ def empty_bin(options=None):
 
 
 def get_bin_path(options=None):
-    """Copy Function
+    """Get Bin Path Function
 
-    Function allow to empty bin folder and history too.
+    Function print to stdout path of bin location
+    or if it's not exists, print error message.
 
     Parameters:
-        options: list of copy politics.
+        options: list of bin path getting politics.
 
     Returns:
         value: 0 - successful, 1 - fail.
