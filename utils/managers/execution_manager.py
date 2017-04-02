@@ -40,9 +40,9 @@ def execute_command(paths=[], options=None):
             both 'binempty' or 'empty_bin' key words.
         To run move_bin command could be used 
             both 'binmove' or 'move_bin' key words.
+        To run 'create_bin' command could be used
+            both 'bincreate' or 'create_bin' key words.
         
-        
-
     """
     if 'remove' in options['mods']:
         return delete_command.delete(paths, options)
