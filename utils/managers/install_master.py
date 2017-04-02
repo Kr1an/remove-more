@@ -25,7 +25,7 @@ def is_installed():
     """
     try:
         with open(os.path.expanduser('~' + os.sep + '.bashrc')) as f:
-            part_of_script = '/remove-more/utils/controller.py'
+            part_of_script = '/remove-more/controller.py'
             check_lines = (part_of_script in line for line in f)
             return any(check_lines)
     except Exception as e:
@@ -46,7 +46,7 @@ def remove():
 
     try:
         with open(os.path.expanduser('~' + os.sep + '.bashrc'), 'w') as f:
-            part_of_script = '/remove-more/utils/controller.py'
+            part_of_script = '/remove-more/controller.py'
             for line in lines:
                 if part_of_script not in line:
                     f.write(line)
@@ -78,12 +78,13 @@ def get_install_script():
 
     """
     return 'echo alias {}=\\\"{}\\\" >> ~/.bashrc'.format(
-        user_config_manager.get_property('name.short'),
+        app_config_manager.get_property('name.short'),
         'python {}'.format(
             os.path.abspath(
                 os.path.join(
                     os.path.dirname(__file__),
                     *[
+                        '..',
                         '..',
                         'controller.py'
                     ]

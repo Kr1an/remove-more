@@ -103,7 +103,41 @@ class BinCommandTestCase(unittest.TestCase):
             1
         )
 
-
+    def test_move_bin_with_relative_path(self):
+        file_1 = os.path.join(self.test_folder_path, 'file_1')
+        bin_move_rel_path = os.path.relpath(
+                os.path.join(
+                    self.test_folder_path,
+                    'bin_move_path'
+                ),
+                os.getcwd()
+            )
+        os.mknod(file_1)
+        bin_config_manager.history_add(file_1)
+        clean_path.move(file_1, user_config_manager.get_property('bin_path'))
+        self.assertEqual(
+            bin_command.move_bin(bin_move_rel_path),
+            0
+        )
+        self.assertFalse(
+            os.path.exists(os.path.join(self.test_bin_path, 'file_1'))
+        )
+        self.assertTrue(
+            os.path.exists(
+                os.path.join(
+                    user_config_manager.get_property('bin_path'),
+                    'file_1'
+                )
+            )
+        )
+        self.assertEqual(
+            user_config_manager.get_property('bin_path'),
+            os.path.abspath(bin_move_rel_path)
+        )
+        self.assertEqual(
+            len(bin_config_manager.get_property('history')),
+            1
+        )
 
     def test_copy_bin(self):
         file_1 = os.path.join(self.test_folder_path, 'file_1')
@@ -127,6 +161,37 @@ class BinCommandTestCase(unittest.TestCase):
         self.assertEqual(
             user_config_manager.get_property('bin_path'),
             self.test_bin_path
+        )
+
+    def test_copy_bin_with_rel_path(self):
+        file_1 = os.path.join(self.test_folder_path, 'file_1')
+        bin_copy_rel_path = os.path.relpath(
+            os.path.join(
+                self.test_folder_path,
+                'bin_copy_path'
+            ),
+            os.getcwd()
+        )
+
+        os.mknod(file_1)
+        bin_config_manager.history_add(file_1)
+        clean_path.move(file_1, user_config_manager.get_property('bin_path'))
+        self.assertEqual(
+            bin_command.copy_bin(bin_copy_rel_path),
+            0,
+            msg="Should return success code: 0."
+        )
+        self.assertEqual(
+            len(bin_config_manager.get_property('history')),
+            1,
+        )
+        self.assertTrue(
+            os.path.exists(os.path.join(user_config_manager.get_property('bin_path'), 'file_1')),
+            msg="Should copy innear files too"
+        )
+        self.assertEqual(
+            user_config_manager.get_property('bin_path'),
+            os.path.abspath(self.test_bin_path)
         )
 
     def test_empty_bin(self):
@@ -185,5 +250,31 @@ class BinCommandTestCase(unittest.TestCase):
         self.assertEqual(
             user_config_manager.get_property('bin_path'),
             new_bin_location,
+            msg="New path should be writen to user config file"
+        )
+
+    def test_create_bin_with_rel_path(self):
+        file_1 = os.path.join(self.test_folder_path, 'file_1')
+        os.mknod(file_1)
+        clean_path.move(file_1, user_config_manager.get_property('bin_path'))
+        bin_config_manager.history_add(file_1)
+        new_bin_rel_path = os.path.relpath(
+            os.path.join(
+                self.test_folder_path,
+                'new_bin_rel_path'
+            ),
+            os.getcwd()
+        )
+        self.assertEqual(
+            bin_command.create_bin(new_bin_rel_path),
+            0, msg='Bin command should return success code: 0.'
+        )
+        self.assertEqual(
+            len(bin_config_manager.get_property('history')),
+            0, msg="New bin should be empty."
+        )
+        self.assertEqual(
+            user_config_manager.get_property('bin_path'),
+            os.path.abspath(new_bin_rel_path),
             msg="New path should be writen to user config file"
         )
