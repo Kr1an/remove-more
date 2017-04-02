@@ -37,8 +37,12 @@ def execute_command(paths=[], options=None):
     
     Remark:
         To run empty_bin command could be used 
-        both 'binempty' or 'empty_bin' key words.
-
+            both 'binempty' or 'empty_bin' key words.
+        To run move_bin command could be used 
+            both 'binmove' or 'move_bin' key words.
+        To run 'create_bin' command could be used
+            both 'bincreate' or 'create_bin' key words.
+        
     """
     if 'remove' in options['mods']:
         return delete_command.delete(paths, options)
@@ -49,13 +53,13 @@ def execute_command(paths=[], options=None):
     if 'binempty' in options['mods'] or 'empty_bin' in options['mods']:
         return bin_command.empty_bin(options)
 
-    if 'create_bin' in options['mods']:
+    if 'bincreate' in options['mods'] or 'create_bin' in options['mods']:
         return bin_command.create_bin(options['path'], options)
 
     if 'copy_bin' in options['mods']:
         return bin_command.copy_bin(options['path'], options)
 
-    if 'move_bin' in options['mods']:
+    if 'binmove' in options['mods'] or 'move_bin' in options['mods']:
         return bin_command.move_bin(options['path'], options)
 
     if 'binpath' in options['mods']:
