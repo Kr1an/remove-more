@@ -100,7 +100,30 @@ class DeleteCommandTestCase(unittest.TestCase):
 
 
     def test_delete_with_folder(self):
-        pass
+        dir_1 = os.path.join(self.test_folder_path, 'dir_1')
+        file_1 = os.path.join(dir_1, 'file_1')
+        os.mkdir(dir_1)
+        os.mknod(file_1)
+
+        self.assertEqual(
+            delete_command.delete([dir_1]),
+            0,
+            msg='Should return success code: 0.'
+        )
+        self.assertFalse(os.path.exists(file_1))
+        self.assertTrue(
+            os.path.exists(
+                os.path.join(
+                    user_config_manager.get_property('bin_path'),
+                    os.path.basename(dir_1),
+                    os.path.basename(file_1)
+                )
+            )
+        )
+        self.assertEqual(
+            bin_config_manager.history_get(os.path.basename(dir_1))['src_dir'],
+            os.path.dirname(dir_1)
+        )
 
     def test__copy_to_bin(self):
         file_1 = os.path.join(self.test_folder_path, 'file_1')

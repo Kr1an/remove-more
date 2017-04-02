@@ -204,6 +204,46 @@ class ExecutionManagerTestCase(unittest.TestCase):
             os.path.dirname(file_1)
         )
 
+    def test_execution_manager_with_delete_folder(self):
+        dir_1 = os.path.join(self.test_folder_path, 'dir_1')
+        file_1 = os.path.join(dir_1, 'file_1')
+        os.mkdir(dir_1)
+        os.mknod(file_1)
+        self.assertTrue(
+            os.path.exists(
+                file_1
+            )
+        )
+        self.options.update({'mods': ['remove']})
+        self.paths = [dir_1]
+        self.assertEqual(
+            execution_manager.execute_command(self.paths, self.options),
+            0, msg="Execute command should return success code: 0."
+        )
+        self.assertFalse(
+            os.path.exists(
+                dir_1
+            )
+        )
+        self.assertEqual(
+            len(bin_config_manager.get_property('history')),
+            1
+        )
+        self.assertEqual(
+            bin_config_manager.history_get(os.path.basename(dir_1))['src_dir'],
+            os.path.dirname(dir_1)
+        )
+        self.assertTrue(
+            os.path.exists(
+                os.path.join(
+                    user_config_manager.get_property('bin_path'),
+                    bin_config_manager.history_get(
+                        os.path.basename(dir_1)
+                    )['bin_name']
+                )
+            )
+        )
+
     def test_execution_manager_with_restore(self):
         file_1 = os.path.join(self.test_folder_path, 'file_1')
         os.mknod(file_1)
