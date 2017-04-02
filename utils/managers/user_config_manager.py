@@ -172,3 +172,14 @@ def _set_properties(props):
     for prop in props:
         set_property(prop['key'], prop['value'])
 
+
+def is_valid():
+    """Is Valid Function
+    
+    Check out if user config is valid to use it.
+    
+    Returns:
+        value: True/False, according to validation.
+    
+    """
+    return bool(_get_config())
