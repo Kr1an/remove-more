@@ -25,12 +25,21 @@ from utils.commands import delete_command
 
 
 class Args(object):
-    def __init__(self, binmove, bincopy, bincreate, binempty, restore):
+    def __init__(
+        self,
+        binmove=None,
+        bincopy=None,
+        bincreate=None,
+        binempty=False,
+        restore=False,
+        binpath=False
+                 ):
         self.binmove = binmove
         self.bincopy = bincopy
         self.bincreate = bincreate
         self.binempty = binempty
         self.restore = restore
+        self.binpath = binpath
 
 
 class ArgumentManagerTestCase(unittest.TestCase):
@@ -46,6 +55,13 @@ class ArgumentManagerTestCase(unittest.TestCase):
         self.assertEqual(
             argument_manager.parse_arguments(),
             [[], {'mods': ['binempty']}]
+        )
+
+    def test_parse_arguments_with_binpath(self):
+        sys.argv += ['--binpath']
+        self.assertEqual(
+            argument_manager.parse_arguments(),
+            [[], {'mods': ['binpath']}]
         )
 
     def test_parse_arguments_with_bincreate(self):
@@ -65,29 +81,38 @@ class ArgumentManagerTestCase(unittest.TestCase):
 
     def test_get_options_with_bincopy(self):
         copy_path = '.'
-        arguments = Args(False, copy_path, False, False, False)
+        arguments = Args(bincopy=copy_path)
         options = argument_manager._get_options(arguments)
         self.assertEqual(options['mods'][0], 'bincopy')
         self.assertEqual(options['path'], copy_path)
 
     def test_get_options_with_restore(self):
         copy_path = '.'
-        arguments = Args(False, False, False, False, True)
+        arguments = Args(restore=True)
         options = argument_manager._get_options(arguments)
         self.assertEqual(options['mods'][0], 'restore')
         self.assertEqual(len(options['mods']), 1)
 
     def test_get_options_with_several_mods(self):
         copy_path = '.'
-        arguments = Args('/move_path', '/copy_path', '/create_path', True, True)
+        arguments = Args(
+            '/move_path', '/copy_path', '/create_path',
+            True, True, True)
         options = argument_manager._get_options(arguments)
         self.assertEqual(options['mods'][0], 'binmove')
         self.assertEqual(options['path'], '/move_path')
         self.assertEqual(len(options['mods']), 1)
 
     def test_get_options_with_empty_arguments(self):
-        arguments = Args(None, None, None, None, None)
+        arguments = Args()
         self.assertEqual(
             argument_manager._get_options(arguments),
             {'mods': ['remove']}
+        )
+
+    def test_get_options_with_binpath(self):
+        arguments = Args(binpath=True)
+        self.assertEqual(
+            argument_manager._get_options(arguments),
+            {'mods': ['binpath']}
         )

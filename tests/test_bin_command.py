@@ -22,10 +22,16 @@ import unittest
 
 import os
 import shutil
+import sys
 
 from utils.helpers import clean_path
 from utils.managers import user_config_manager, app_config_manager, bin_config_manager
 from utils.commands import bin_command
+
+from contextlib import contextmanager
+from StringIO import StringIO
+
+from setting.DEFAULT_CONFIGS import ERROR_MESSAGES
 
 TEST_FOLDER_PATH = \
     os.path.abspath(
@@ -47,6 +53,18 @@ TEST_BIN_PATH = \
             'bin'
         )
     )
+
+
+
+@contextmanager
+def captured_output():
+    new_out, new_err = StringIO(), StringIO()
+    old_out, old_err = sys.stdout, sys.stderr
+    try:
+        sys.stdout, sys.stderr = new_out, new_err
+        yield sys.stdout, sys.stderr
+    finally:
+        sys.stdout, sys.stderr = old_out, old_err
 
 
 class BinCommandTestCase(unittest.TestCase):
@@ -277,4 +295,29 @@ class BinCommandTestCase(unittest.TestCase):
             user_config_manager.get_property('bin_path'),
             os.path.abspath(new_bin_rel_path),
             msg="New path should be writen to user config file"
+        )
+
+    def test_get_bin_path_success(self):
+        with captured_output() as (out, err):
+            self.assertFalse(
+                bin_command.get_bin_path()
+            )
+
+        output = out.getvalue().strip()
+        self.assertEqual(
+            user_config_manager.get_property('bin_path'),
+            output
+        )
+
+    def test_get_bin_path_not_exists(self):
+        user_config_manager.set_property('bin_path', '')
+        with captured_output() as (out, err):
+            self.assertFalse(
+                bin_command.get_bin_path()
+            )
+
+        output = out.getvalue().strip()
+        self.assertEqual(
+            ERROR_MESSAGES['bin_not_exists'],
+            output
         )

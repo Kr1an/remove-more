@@ -78,5 +78,16 @@ ARGS_CONFIG = [
         "shortcut": "-re",
         "help": "Specify than <paths> is needed to be restored",
         "action": "store_true"
+    },
+    {
+        "name": "--binpath",
+        "shortcut": "-bp",
+        "help": "Print absolute path to bin folder",
+        "action": "store_true"
     }
 ]
+ERROR_MESSAGES = {
+    'bin_not_exists':
+        'Bin folder does not exists. '
+        'Create one with \'--bincreate=../path_to_bin_folder/..\' command'
+}
