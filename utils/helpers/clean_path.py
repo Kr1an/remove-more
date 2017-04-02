@@ -57,6 +57,8 @@ def copy(src, dest, options=None):
         """
     try:
         if os.path.isdir(src):
+            if os.path.exists(dest):
+                dest = os.path.join(dest, os.path.basename(src))
             shutil.copytree(src, dest)
         else:
             shutil.copy(src, dest)
