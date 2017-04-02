@@ -18,8 +18,15 @@ import unittest
 
 import os
 import shutil
+import sys
 
 from utils.managers import user_config_manager, app_config_manager, bin_config_manager
+
+from contextlib import contextmanager
+from StringIO import StringIO
+
+from setting.DEFAULT_CONFIGS import ERROR_MESSAGES
+
 
 TEST_FOLDER_PATH = os.path.abspath(
     os.path.join(
@@ -40,6 +47,19 @@ TEST_BIN_PATH = os.path.abspath(
 CONTROLLER_PATH = os.path.abspath(
     'controller.py'
 )
+
+
+
+@contextmanager
+def captured_output():
+    new_out, new_err = StringIO(), StringIO()
+    old_out, old_err = sys.stdout, sys.stderr
+    try:
+        sys.stdout, sys.stderr = new_out, new_err
+        yield sys.stdout, sys.stderr
+    finally:
+        sys.stdout, sys.stderr = old_out, old_err
+
 
 
 class ControllerTestCase(unittest.TestCase):
@@ -178,3 +198,69 @@ class ControllerTestCase(unittest.TestCase):
                 os.path.basename(file_1)
             )
         ))
+
+    def test_controller_scenario_with_moving_bin(self):
+        file_1 = os.path.join(self.test_folder_path, 'file_1')
+        new_rel_bin_path = 'bin/../new_bin'
+        os.mknod(file_1)
+        self.assertEqual(os.system(self.get_script('%s' % os.path.basename(file_1))), 0)
+        self.assertEqual(os.system(self.get_script('--binmove=%s' % new_rel_bin_path)), 0)
+
+        self.assertEqual(len(bin_config_manager.get_property('history')), 1)
+        self.assertEqual(
+            os.path.abspath(new_rel_bin_path),
+            user_config_manager.get_property('bin_path')
+        )
+        self.assertEqual(
+            bin_config_manager.history_get(os.path.basename(file_1))['src_dir'],
+            os.path.dirname(file_1)
+        )
+        self.assertTrue(os.path.exists(
+            os.path.join(
+                user_config_manager.get_property('bin_path'),
+                os.path.basename(file_1)
+            )
+        ))
+
+    def test_controller_scenario_with_copy_bin(self):
+        file_1 = os.path.join(self.test_folder_path, 'file_1')
+        copy_rel_bin_path = 'bin/../bin_copy_1'
+        os.mknod(file_1)
+        self.assertEqual(os.system(self.get_script('%s' % os.path.basename(file_1))), 0)
+        self.assertEqual(os.system(self.get_script('--bincopy=%s' % copy_rel_bin_path)), 0)
+
+        self.assertEqual(len(bin_config_manager.get_property('history')), 1)
+        self.assertEqual(
+            os.path.abspath(self.test_bin_path),
+            user_config_manager.get_property('bin_path')
+        )
+        self.assertEqual(
+            bin_config_manager.history_get(os.path.basename(file_1))['src_dir'],
+            os.path.dirname(file_1)
+        )
+        self.assertTrue(os.path.exists(
+            os.path.join(
+                user_config_manager.get_property('bin_path'),
+                os.path.basename(file_1)
+            )
+        ))
+
+    def test_controller_scenario_with_creating_bin(self):
+        file_1 = os.path.join(self.test_folder_path, 'file_1')
+        new_rel_bin_path = 'bin/../new_bin'
+        os.mknod(file_1)
+        self.assertEqual(os.system(self.get_script('%s' % os.path.basename(file_1))), 0)
+        self.assertEqual(os.system(self.get_script('--bincreate=%s' % new_rel_bin_path)), 0)
+
+        self.assertEqual(len(bin_config_manager.get_property('history')), 0)
+        self.assertEqual(
+            os.path.abspath(new_rel_bin_path),
+            user_config_manager.get_property('bin_path')
+        )
+        self.assertFalse(os.path.exists(
+            os.path.join(
+                user_config_manager.get_property('bin_path'),
+                os.path.basename(file_1)
+            )
+        ))
+g
