@@ -263,4 +263,3 @@ class ControllerTestCase(unittest.TestCase):
                 os.path.basename(file_1)
             )
         ))
-g
