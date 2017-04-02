@@ -23,6 +23,10 @@ Module is under construction. Could be extended.
 
 """
 from utils.commands import delete_command, restore_command, bin_command
+from utils.managers import app_config_manager, user_config_manager
+from utils.managers import bin_config_manager
+
+from setting.DEFAULT_CONFIGS import ERROR_MESSAGES
 
 
 def execute_command(paths=[], options=None):
@@ -44,6 +48,9 @@ def execute_command(paths=[], options=None):
             both 'bincreate' or 'create_bin' key words.
         
     """
+    if not _valid_command(paths, options):
+        return 1
+
     if 'remove' in options['mods']:
         return delete_command.delete(paths, options)
 
@@ -64,3 +71,17 @@ def execute_command(paths=[], options=None):
 
     if 'binpath' in options['mods']:
         return bin_command.get_bin_path(options)
+
+
+def _valid_command(paths, options):
+    try:
+        if not app_config_manager.is_valid():
+            raise Exception(ERROR_MESSAGES['app_config_error'])
+        elif not user_config_manager.is_valid():
+            raise Exception(ERROR_MESSAGES['user_config_error'])
+        elif not bin_config_manager.is_valid():
+            raise Exception(ERROR_MESSAGES['bin_config_error'])
+        return True
+    except Exception as e:
+        print(e)
+        return False
