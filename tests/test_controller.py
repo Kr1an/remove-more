@@ -82,6 +82,26 @@ class ControllerTestCase(unittest.TestCase):
             )
         ))
 
+    def test_controller_scenario_with_deleting_folder(self):
+        dir_1 = os.path.join(self.test_folder_path, 'dir_1')
+        file_1 = os.path.join(dir_1, 'file_1')
+        os.mkdir(dir_1)
+        os.mknod(file_1)
+
+        self.assertEqual(os.system(self.get_script('%s' % os.path.basename(dir_1))), 0)
+        self.assertFalse(os.path.exists(file_1))
+        self.assertFalse(os.path.exists(dir_1))
+        self.assertTrue(os.path.exists(
+            os.path.join(
+                user_config_manager.get_property('bin_path'),
+                os.path.basename(dir_1)
+            )
+        ))
+        self.assertEqual(
+            bin_config_manager.history_get(os.path.basename(dir_1))['src_dir'],
+            os.path.dirname(dir_1)
+        )
+
     def test_controller_scenario_with_binempty(self):
         file_1 = os.path.join(self.test_folder_path, 'file_1')
         os.mknod(file_1)
@@ -116,21 +136,45 @@ class ControllerTestCase(unittest.TestCase):
             )
         ))
 
-    def test_controller_scenario_with_restoring_file(self):
-        file_1 = os.path.join(self.test_folder_path, 'file_1')
+    def test_controller_scenario_with_restoring_folder(self):
+        dir_1 = os.path.join(self.test_folder_path, 'dir_1')
+        file_1 = os.path.join(dir_1, 'file_1')
+        os.mkdir(dir_1)
         os.mknod(file_1)
 
-        self.assertEqual(os.system(self.get_script('%s' % os.path.basename(file_1))), 0)
+        self.assertEqual(os.system(self.get_script('%s' % os.path.basename(dir_1))), 0)
         self.assertEqual(len(bin_config_manager.get_property('history')), 1)
         os.chdir(os.path.basename(self.test_bin_path))
         self.assertFalse(os.path.exists(file_1))
-        self.assertEqual(os.system(self.get_script('%s --restore' % os.path.basename(file_1))), 0)
+        self.assertFalse(os.path.exists(dir_1))
+        self.assertTrue(os.path.exists(
+            os.path.join(
+                user_config_manager.get_property('bin_path'),
+                bin_config_manager.history_get(os.path.basename(dir_1))['bin_name']
+            )
+        ))
+        self.assertTrue(os.path.exists(
+            os.path.join(
+                user_config_manager.get_property('bin_path'),
+                bin_config_manager.history_get(os.path.basename(dir_1))['bin_name'],
+                os.path.basename(file_1)
+            )
+        ))
+
+        self.assertEqual(os.system(self.get_script('%s --restore' % os.path.basename(dir_1))), 0)
         self.assertEqual(len(bin_config_manager.get_property('history')), 0)
 
         self.assertTrue(os.path.exists(file_1))
+        self.assertTrue(os.path.exists(dir_1))
+        self.assertFalse(os.path.exists(
+            os.path.join(
+                user_config_manager.get_property('bin_path'), os.path.basename(dir_1)
+            )
+        ))
         self.assertFalse(os.path.exists(
             os.path.join(
                 user_config_manager.get_property('bin_path'),
+                os.path.basename(dir_1),
                 os.path.basename(file_1)
             )
         ))
