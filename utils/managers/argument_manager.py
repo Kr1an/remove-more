@@ -51,13 +51,14 @@ def _get_options(arguments):
         (arguments.bincopy, ['bincopy']),
         (arguments.bincreate, ['bincreate']),
         (arguments.binempty, ['binempty']),
+        (arguments.binpath, ['binpath']),
         (arguments.restore, ['restore']),
         (not arguments.restore, ['remove'])
     ]
 
     for condition in conditions:
         if condition[0]:
-            if type(condition[0])!=bool:
+            if type(condition[0]) != bool:
                 options.update({'path': condition[0]})
             options['mods'] += condition[1]
             break

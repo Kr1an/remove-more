@@ -53,3 +53,6 @@ def execute_command(paths=[], options=None):
 
     if 'move_bin' in options['mods']:
         return bin_command.move_bin(options['path'], options)
+
+    if 'binpath' in options['mods']:
+        return bin_command.get_bin_path(options)

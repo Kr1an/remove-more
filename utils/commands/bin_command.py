@@ -16,6 +16,8 @@ from utils.helpers import clean_path
 from utils.managers import bin_config_manager
 from utils.managers import user_config_manager
 
+from setting.DEFAULT_CONFIGS import ERROR_MESSAGES
+
 
 def copy_bin(path, options=None):
     """Copy Function
@@ -116,6 +118,30 @@ def empty_bin(options=None):
                 user_config_manager.get_property('bin_path'),
                 history_item['bin_name']
             )
+        return 0
+    except Exception as e:
+        print(e)
+        return 1
+
+
+def get_bin_path(options=None):
+    """Copy Function
+
+    Function allow to empty bin folder and history too.
+
+    Parameters:
+        options: list of copy politics.
+
+    Returns:
+        value: 0 - successful, 1 - fail.
+
+    """
+    try:
+        bin_path = user_config_manager.get_property('bin_path')
+        if bin_path:
+            print(bin_path)
+        else:
+            print(ERROR_MESSAGES['bin_not_exists'])
         return 0
     except Exception as e:
         print(e)
