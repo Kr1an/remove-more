@@ -57,6 +57,13 @@ class ArgumentManagerTestCase(unittest.TestCase):
             [[], {'mods': ['binempty']}]
         )
 
+    def test_parse_arguments_with_binpath(self):
+        sys.argv += ['--binpath']
+        self.assertEqual(
+            argument_manager.parse_arguments(),
+            [[], {'mods': ['binpath']}]
+        )
+
     def test_parse_arguments_with_bincreate(self):
         sys.argv += ['--bincreate=.']
         self.assertEqual(
@@ -101,4 +108,11 @@ class ArgumentManagerTestCase(unittest.TestCase):
         self.assertEqual(
             argument_manager._get_options(arguments),
             {'mods': ['remove']}
+        )
+
+    def test_get_options_with_binpath(self):
+        arguments = Args(binpath=True)
+        self.assertEqual(
+            argument_manager._get_options(arguments),
+            {'mods': ['binpath']}
         )
