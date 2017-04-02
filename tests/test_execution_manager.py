@@ -151,6 +151,31 @@ class ExecutionManagerTestCase(unittest.TestCase):
             )
         )
 
+    def test_execution_manager_with_empty_bin_with_second_key_format(self):
+        file_1 = os.path.join(self.test_folder_path, 'file_1')
+        os.mknod(file_1)
+        delete_command.delete([file_1])
+        self.options.update({'mods': ['binempty']})
+        self.assertEqual(
+            execution_manager.execute_command(self.paths, self.options),
+            0, msg="Execute command should return success code: 0."
+        )
+        self.assertEqual(
+            len(bin_config_manager.get_property('history')),
+            0
+        )
+        self.assertFalse(
+            os.path.exists(file_1)
+        )
+        self.assertFalse(
+            os.path.exists(
+                os.path.join(
+                    user_config_manager.get_property('bin_path'),
+                    os.path.basename(file_1)
+                )
+            )
+        )
+
     def test_execution_manager_with_delete(self):
         file_1 = os.path.join(self.test_folder_path, 'file_1')
         os.mknod(file_1)

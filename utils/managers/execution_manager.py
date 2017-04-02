@@ -34,6 +34,10 @@ def execute_command(paths=[], options=None):
         paths: possible list of given paths to delete or restore. Do not use
             this argument to pass path to some location(ex. path to create bin)
         options: possible object with settings(mods) of needed command.
+    
+    Remark:
+        To run empty_bin command could be used 
+        both 'binempty' or 'empty_bin' key words.
 
     """
     if 'remove' in options['mods']:
@@ -42,7 +46,7 @@ def execute_command(paths=[], options=None):
     if 'restore' in options['mods']:
         return restore_command.restore(paths, options)
 
-    if 'empty_bin' in options['mods']:
+    if 'binempty' in options['mods'] or 'empty_bin' in options['mods']:
         return bin_command.empty_bin(options)
 
     if 'create_bin' in options['mods']:
