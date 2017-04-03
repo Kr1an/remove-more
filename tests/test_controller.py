@@ -21,6 +21,7 @@ import shutil
 import sys
 
 from utils.managers import user_config_manager, app_config_manager, bin_config_manager
+from utils.commands import bin_command
 
 from contextlib import contextmanager
 from StringIO import StringIO
@@ -363,3 +364,24 @@ class ControllerTestCase(unittest.TestCase):
             user_config_manager.get_property('bin_path'),
             os.path.basename(file_3)
         )))
+
+    def test_controller_with_binprint_option(self):
+        file_1 = os.path.join(self.test_folder_path, 'file_1')
+        file_3 = os.path.join(self.test_folder_path, 'file_3')
+        file_2 = os.path.join(self.test_folder_path, 'file_2')
+        os.mknod(file_1)
+        os.mknod(file_2)
+        os.mknod(file_3)
+        self.assertEqual(os.system(self.get_script('--regex=./file_*')), 0)
+
+        with captured_output() as (out, err):
+            self.assertEqual(bin_command.print_bin(None), 0)
+
+        output = out.getvalue().strip()
+
+        history_list = bin_config_manager.get_property('history')
+        for history_item in history_list:
+            self.assertTrue(
+                history_item['bin_name'] in output,
+                msg="Does not print all file info."
+            )
