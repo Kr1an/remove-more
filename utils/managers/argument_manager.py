@@ -56,6 +56,7 @@ def _get_options(arguments):
         (arguments.bincreate, ['bincreate']),
         (arguments.binempty, ['binempty']),
         (arguments.binpath, ['binpath']),
+        (arguments.binprint, ['binprint']),
         (arguments.restore, ['restore']),
         (not arguments.restore, ['remove'])
     ]
