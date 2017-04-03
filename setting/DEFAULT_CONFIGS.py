@@ -90,6 +90,12 @@ ARGS_CONFIG = [
         "shortcut": "-rex",
         "help": "Check specific reg ex path",
         "action": "store"
+    },
+    {
+        "name": "--binprint",
+        "shortcut": "-bpr",
+        "help": "Prints bin objects file/dir-names.",
+        "action": "store_true"
     }
 ]
 ERROR_MESSAGES = {
@@ -102,4 +108,8 @@ ERROR_MESSAGES = {
         "Application config is not valid. See --help to find solution.",
     'bin_config_error':
         "Application config is not valid. See --help to find solution."
+}
+INFO_MESSAGES = {
+    'bin_restore': 'To restore files from bin. go to bin(use --binpath option)'
+                   ' and use --restore option to accomplish your goal.'
 }

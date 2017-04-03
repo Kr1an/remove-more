@@ -34,6 +34,7 @@ class Args(object):
         restore=False,
         binpath=False,
         regex=None,
+        binprint=False
                  ):
         self.binmove = binmove
         self.bincopy = bincopy
@@ -42,6 +43,7 @@ class Args(object):
         self.restore = restore
         self.binpath = binpath
         self.regex=regex
+        self.binprint = binprint
 
 
 class ArgumentManagerTestCase(unittest.TestCase):

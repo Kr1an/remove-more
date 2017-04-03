@@ -63,7 +63,7 @@ def execute_command(paths=[], options=None):
     if 'bincreate' in options['mods'] or 'create_bin' in options['mods']:
         return bin_command.create_bin(options['path'], options)
 
-    if 'copy_bin' in options['mods']:
+    if 'bincopy' in options['mods'] or 'copy_bin' in options['mods']:
         return bin_command.copy_bin(options['path'], options)
 
     if 'binmove' in options['mods'] or 'move_bin' in options['mods']:
@@ -71,6 +71,9 @@ def execute_command(paths=[], options=None):
 
     if 'binpath' in options['mods']:
         return bin_command.get_bin_path(options)
+
+    if 'binprint' in options['mods']:
+        return bin_command.print_bin(options)
 
 
 def _valid_command(paths, options):
