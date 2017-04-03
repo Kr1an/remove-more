@@ -164,7 +164,7 @@ def print_bin(options):
     try:
         history_list = bin_config_manager.get_property('history')
         for history_item in history_list:
-            print(history_item['bin_name'])
+            print('--' + history_item['bin_name'])
 
         print(INFO_MESSAGES['bin_restore'])
         return 0
