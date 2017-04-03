@@ -46,6 +46,10 @@ def _get_options(arguments):
 
     """
     options = {'mods':[]}
+    ex_conditions = [
+        (arguments.regex, 'regex')
+    ]
+
     conditions = [
         (arguments.binmove, ['binmove']),
         (arguments.bincopy, ['bincopy']),
@@ -62,6 +66,10 @@ def _get_options(arguments):
                 options.update({'path': condition[0]})
             options['mods'] += condition[1]
             break
+
+    for ex_condition in ex_conditions:
+        if ex_condition[0]:
+            options.update({ex_condition[1]: ex_condition[0]})
 
     return options
 
