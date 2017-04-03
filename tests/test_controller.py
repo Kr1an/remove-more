@@ -263,3 +263,103 @@ class ControllerTestCase(unittest.TestCase):
                 os.path.basename(file_1)
             )
         ))
+
+    def test_controller_scenario_with_regex_delete_file(self):
+        file_1 = os.path.join(self.test_folder_path, 'file_1')
+        file_3 = os.path.join(self.test_folder_path, 'file_3')
+        file_2 = os.path.join(self.test_folder_path, 'file_2')
+        os.mknod(file_1)
+        os.mknod(file_2)
+        os.mknod(file_3)
+        self.assertEqual(os.system(self.get_script('--regex=./file_*')), 0)
+
+        self.assertEqual(len(bin_config_manager.get_property('history')), 3)
+        self.assertFalse(os.path.exists(file_1) or os.path.exists(file_2) or os.path.exists(file_3))
+        self.assertTrue(os.path.isfile(os.path.join(
+            user_config_manager.get_property('bin_path'),
+            os.path.basename(file_3)
+        )))
+
+    def test_controller_scenario_with_regex_delete_file_within_folder(self):
+        dir_1 = os.path.join(self.test_folder_path, 'dir_1')
+        file_1 = os.path.join(dir_1, 'file_1')
+        file_3 = os.path.join(dir_1, 'file_3')
+        file_2 = os.path.join(dir_1, 'file_2')
+
+        os.mkdir(dir_1)
+        os.mknod(file_1)
+        os.mknod(file_2)
+        os.mknod(file_3)
+
+        self.assertEqual(os.system(self.get_script('--regex=dir_1/file_*')), 0)
+
+        self.assertEqual(len(bin_config_manager.get_property('history')), 3)
+        self.assertFalse(os.path.exists(file_1) or os.path.exists(file_2) or os.path.exists(file_3))
+        self.assertEqual(
+            bin_config_manager.history_get(os.path.basename(file_1))['src_dir'],
+            os.path.dirname(file_1)
+        )
+        self.assertEqual(
+            bin_config_manager.history_get(os.path.basename(file_2))[
+                'src_dir'],
+            os.path.dirname(file_2)
+        )
+        self.assertEqual(
+            bin_config_manager.history_get(os.path.basename(file_3))[
+                'src_dir'],
+            os.path.dirname(file_3)
+        )
+
+    def test_controller_scenario_with_regex_delete_folders(self):
+        dir_1 = os.path.join(self.test_folder_path, 'dir_1')
+        dir_3 = os.path.join(self.test_folder_path, 'dir_3')
+        dir_2 = os.path.join(self.test_folder_path, 'dir_2')
+        os.mkdir(dir_1)
+        os.mkdir(dir_2)
+        os.mkdir(dir_3)
+        self.assertEqual(os.system(self.get_script('--regex=./dir_*')), 0)
+
+        self.assertEqual(len(bin_config_manager.get_property('history')), 3)
+        self.assertFalse(os.path.exists(dir_1) or os.path.exists(dir_2) or os.path.exists(dir_3))
+        self.assertTrue(os.path.isdir(os.path.join(
+            user_config_manager.get_property('bin_path'),
+            os.path.basename(dir_1)
+        )))
+        self.assertTrue(os.path.isdir(os.path.join(
+            user_config_manager.get_property('bin_path'),
+            os.path.basename(dir_2)
+        )))
+        self.assertTrue(os.path.isdir(os.path.join(
+            user_config_manager.get_property('bin_path'),
+            os.path.basename(dir_3)
+        )))
+
+    def test_controller_scenario_with_regex_delete_folders(self):
+        dir_1 = os.path.join(self.test_folder_path, 'dir_1')
+        dir_2 = os.path.join(dir_1, 'dir_2')
+        dir_3 = os.path.join(dir_2, 'dir_3')
+        file_1 = os.path.join(dir_1, 'file_1')
+        file_2 = os.path.join(dir_2, 'file_2')
+        file_3 = os.path.join(dir_3, 'file_3')
+        os.mkdir(dir_1)
+        os.mkdir(dir_2)
+        os.mkdir(dir_3)
+        os.mknod(file_1)
+        os.mknod(file_2)
+        os.mknod(file_3)
+        self.assertEqual(os.system(self.get_script('--regex=./dir_1/**/file_*')), 0)
+
+        self.assertEqual(len(bin_config_manager.get_property('history')), 3)
+        self.assertTrue(os.path.exists(dir_1) and os.path.exists(dir_2) and os.path.exists(dir_3))
+        self.assertTrue(os.path.isfile(os.path.join(
+            user_config_manager.get_property('bin_path'),
+            os.path.basename(file_1)
+        )))
+        self.assertTrue(os.path.isfile(os.path.join(
+            user_config_manager.get_property('bin_path'),
+            os.path.basename(file_2)
+        )))
+        self.assertTrue(os.path.isfile(os.path.join(
+            user_config_manager.get_property('bin_path'),
+            os.path.basename(file_3)
+        )))
