@@ -16,7 +16,7 @@ from utils.helpers import clean_path
 from utils.managers import bin_config_manager
 from utils.managers import user_config_manager
 
-from setting.DEFAULT_CONFIGS import ERROR_MESSAGES
+from setting.DEFAULT_CONFIGS import ERROR_MESSAGES, INFO_MESSAGES
 
 
 def copy_bin(path, options=None):
@@ -147,3 +147,28 @@ def get_bin_path(options=None):
     except Exception as e:
         print(e)
         return 1
+
+
+def print_bin(options):
+    """Print Bin Function
+
+    Function print to stdout objects of bin.
+
+    Parameters:
+        options: list of bin path getting politics.
+
+    Returns:
+        value: 0 - successful, 1 - fail.
+
+    """
+    try:
+        history_list = bin_config_manager.get_property('history')
+        for history_item in history_list:
+            print(history_item['bin_name'])
+
+        print(INFO_MESSAGES['bin_restore'])
+        return 0
+    except Exception as e:
+        print(e)
+        return 1
+
