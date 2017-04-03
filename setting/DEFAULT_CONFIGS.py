@@ -90,6 +90,12 @@ ARGS_CONFIG = [
         "shortcut": "-rex",
         "help": "Check specific reg ex path",
         "action": "store"
+    },
+    {
+        "name": "--binprint",
+        "shortcut": "-bpr",
+        "help": "Prints bin objects file/dir-names.",
+        "action": "store_true"
     }
 ]
 ERROR_MESSAGES = {
