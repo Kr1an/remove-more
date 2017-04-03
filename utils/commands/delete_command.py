@@ -11,6 +11,8 @@ Todo:
 """
 import os
 import glob
+import fnmatch
+
 
 from utils.helpers import clean_path
 from utils.managers import user_config_manager, bin_config_manager
@@ -78,11 +80,45 @@ def _get_del_paths(paths, options=None):
 
     """
     if options and 'regex' in options:
-        deleting_list = glob.glob(options['regex'])
+        deleting_list = _get_paths_from_regex(options['regex'])
     else:
         deleting_list = set([val for path in paths for val in glob.glob(path)])
     deleting_list = [os.path.abspath(rel_path) for rel_path in deleting_list]
     return deleting_list
+
+
+def _get_paths_from_regex(regex):
+    """Get  Paths From Regex Function.
+
+    Do not use this function outside of module.
+
+    Function get paths and find regex in it, expend list and
+    return expended array of paths. The key is that python 2.2-2.7
+    does not understand 2 asterics sign(**) in regex, thus, this
+    function solves this problem in not very hard way.
+
+    Parameters:
+        regex: string with rel/abs path, that could have regex within it. 
+
+    Returns:
+        value: list of valid paths.
+
+    """
+    if '**' not in regex:
+        return glob.glob(regex)
+    else:
+        path = regex
+        while not os.path.exists(os.path.abspath(path)) and path != '/':
+            path = os.path.dirname(path)
+
+        reg_suffix = os.path.basename(regex)
+        paths = []
+
+        for root, dirs, files in os.walk(os.path.abspath(path)):
+            for file in fnmatch.filter(files, reg_suffix):
+                paths.append(os.path.join(root, file))
+
+        return paths
 
 
 def _delete(paths, options=None):
