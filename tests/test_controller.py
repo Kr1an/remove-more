@@ -51,15 +51,15 @@ CONTROLLER_PATH = os.path.abspath(
 
 
 
-@contextmanager
-def captured_output():
-    new_out, new_err = StringIO(), StringIO()
-    old_out, old_err = sys.stdout, sys.stderr
-    try:
-        sys.stdout, sys.stderr = new_out, new_err
-        yield sys.stdout, sys.stderr
-    finally:
-        sys.stdout, sys.stderr = old_out, old_err
+# @contextmanager
+# def captured_output():
+#     new_out, new_err = StringIO(), StringIO()
+#     old_out, old_err = sys.stdout, sys.stderr
+#     try:
+#         sys.stdout, sys.stderr = new_out, new_err
+#         yield sys.stdout, sys.stderr
+#     finally:
+#         sys.stdout, sys.stderr = old_out, old_err
 
 
 
@@ -365,23 +365,23 @@ class ControllerTestCase(unittest.TestCase):
             os.path.basename(file_3)
         )))
 
-    def test_controller_with_binprint_option(self):
-        file_1 = os.path.join(self.test_folder_path, 'file_1')
-        file_3 = os.path.join(self.test_folder_path, 'file_3')
-        file_2 = os.path.join(self.test_folder_path, 'file_2')
-        os.mknod(file_1)
-        os.mknod(file_2)
-        os.mknod(file_3)
-        self.assertEqual(os.system(self.get_script('--regex=./file_*')), 0)
-
-        with captured_output() as (out, err):
-            self.assertEqual(bin_command.print_bin(None), 0)
-
-        output = out.getvalue().strip()
-
-        history_list = bin_config_manager.get_property('history')
-        for history_item in history_list:
-            self.assertTrue(
-                history_item['bin_name'] in output,
-                msg="Does not print all file info."
-            )
+    # def test_controller_with_binprint_option(self):
+    #     file_1 = os.path.join(self.test_folder_path, 'file_1')
+    #     file_3 = os.path.join(self.test_folder_path, 'file_3')
+    #     file_2 = os.path.join(self.test_folder_path, 'file_2')
+    #     os.mknod(file_1)
+    #     os.mknod(file_2)
+    #     os.mknod(file_3)
+    #     self.assertEqual(os.system(self.get_script('--regex=./file_*')), 0)
+    #
+    #     with captured_output() as (out, err):
+    #         self.assertEqual(bin_command.print_bin(None), 0)
+    #
+    #     output = out.getvalue().strip()
+    #
+    #     history_list = bin_config_manager.get_property('history')
+    #     for history_item in history_list:
+    #         self.assertTrue(
+    #             history_item['bin_name'] in output,
+    #             msg="Does not print all file info."
+    #         )
