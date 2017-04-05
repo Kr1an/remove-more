@@ -16,6 +16,10 @@ import glob
 from utils.helpers import clean_path
 from utils.managers import user_config_manager, bin_config_manager
 
+from utils.helpers.log_helper import get_log
+
+from setting.DEFAULT_CONFIGS import INFO_MESSAGES
+
 
 def restore(paths, options=None):
     """Restore Function
@@ -34,9 +38,12 @@ def restore(paths, options=None):
     try:
         restore_paths = _get_restore_paths(paths, options)
         _move_from_bin(restore_paths, options)
+        get_log().info(INFO_MESSAGES['restore']).format(
+            '\n '.join(restore_paths)
+        )
         return 0
     except Exception as e:
-        print(e)
+        get_log().error(e)
         return 1
 
 
