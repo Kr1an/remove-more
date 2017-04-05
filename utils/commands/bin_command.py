@@ -36,7 +36,7 @@ def copy_bin(path, options=None):
 
     """
     try:
-        if not options or options and 'dry' not in options:
+        if not bin_config_manager.is_dry_mode(options):
             clean_path.copy(
                 user_config_manager.get_property('bin_path'),
                 os.path.abspath(path)
