@@ -40,7 +40,7 @@ def delete(paths, options=None):
     """
     try:
         del_paths = _get_del_paths(paths, options)
-        if options and 'dry' not in options:
+        if not bin_config_manager.is_dry_mode(options):
             _copy_to_bin(del_paths, options)
             _delete(del_paths, options)
         get_log().info(INFO_MESSAGES['delete'].format(

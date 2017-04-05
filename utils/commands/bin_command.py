@@ -36,7 +36,7 @@ def copy_bin(path, options=None):
 
     """
     try:
-        if options and 'dry' not in options:
+        if not options or options and 'dry' not in options:
             clean_path.copy(
                 user_config_manager.get_property('bin_path'),
                 os.path.abspath(path)
@@ -63,7 +63,7 @@ def move_bin(path, options=None):
 
     """
     try:
-        if options and 'dry' not in options:
+        if not bin_config_manager.is_dry_mode(options):
             clean_path.move(
                 user_config_manager.get_property('bin_path'),
                 os.path.abspath(path)
@@ -96,7 +96,7 @@ def create_bin(path, options=None):
 
         """
     try:
-        if options and 'dry' not in options:
+        if not bin_config_manager.is_dry_mode(options):
             user_config_manager.set_property(
                 'bin_path',
                 os.path.abspath(path)
@@ -125,7 +125,7 @@ def empty_bin(options=None):
 
     """
     try:
-        if options and 'dry' not in options:
+        if not bin_config_manager.is_dry_mode(options):
             for history_item in bin_config_manager.get_property('history'):
                 bin_config_manager.history_del(history_item['bin_name'])
                 clean_path.delete(
