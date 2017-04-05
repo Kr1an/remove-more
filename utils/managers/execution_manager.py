@@ -22,6 +22,8 @@ Example:
 Module is under construction. Could be extended.
 
 """
+import os
+
 from utils.commands import delete_command, restore_command, bin_command
 from utils.managers import app_config_manager, user_config_manager
 from utils.managers import bin_config_manager
@@ -84,6 +86,9 @@ def _valid_command(paths, options):
             raise Exception(ERROR_MESSAGES['user_config_error'])
         elif not bin_config_manager.is_valid():
             raise Exception(ERROR_MESSAGES['bin_config_error'])
+        elif not os.path.isdir(user_config_manager.get_property('bin_path')):
+            if 'bincreate' not in options['mods']:
+                raise Exception(ERROR_MESSAGES['bin_not_exists'])
         return True
     except Exception as e:
         print(e)

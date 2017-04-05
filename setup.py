@@ -40,6 +40,7 @@ def install():
     install(bind) script to memory.
 
     """
+    install_master.init_config_files()
     if not install_master.is_installed():
         install_master.install(
             {
@@ -55,6 +56,7 @@ def test():
     that search for unittest class cases.
 
     """
+
     test_master.run_tests()
 
 
@@ -69,31 +71,31 @@ def setup():
         default: execute install script.
 
     """
-    install_master.init_config_files()
-    if os_check_manager.is_supported_platform():
-        arguments_parser = argparse.ArgumentParser()
-        arguments_parser.add_argument(
-            "-r",
-            "--remove",
-            default=False,
-            help="remove script",
-            action="store_true"
-        )
-        arguments_parser.add_argument(
-            "-t",
-            "--test",
-            default=False,
-            help="run test scripts",
-            action="store_true"
-        )
-        arguments = arguments_parser.parse_args()
+    arguments_parser = argparse.ArgumentParser()
+    arguments_parser.add_argument(
+        "-r",
+        "--remove",
+        default=False,
+        help="remove script",
+        action="store_true"
+    )
+    arguments_parser.add_argument(
+        "-t",
+        "--test",
+        default=False,
+        help="run test scripts",
+        action="store_true"
+    )
+    arguments = arguments_parser.parse_args()
 
-        if arguments.test:
-            test()
-        elif arguments.remove:
-            remove()
-        elif not arguments.remove:
+    if arguments.test:
+        test()
+    elif arguments.remove:
+        remove()
+    elif not arguments.remove:
+        if os_check_manager.is_supported_platform():
             install()
+
 
 if __name__ == "__main__":
     setup()

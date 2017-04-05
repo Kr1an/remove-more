@@ -47,7 +47,8 @@ def _get_options(arguments):
     """
     options = {'mods':[]}
     ex_conditions = [
-        (arguments.regex, 'regex')
+        (arguments.regex, 'regex'),
+        (arguments.silent, 'silent')
     ]
 
     conditions = [
@@ -71,7 +72,6 @@ def _get_options(arguments):
     for ex_condition in ex_conditions:
         if ex_condition[0]:
             options.update({ex_condition[1]: ex_condition[0]})
-
     return options
 
 

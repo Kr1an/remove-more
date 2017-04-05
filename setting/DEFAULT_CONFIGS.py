@@ -35,6 +35,17 @@ APP_CONFIG = {
     "author": "kr1an@hotmail.com",
     "bin_config": {
         "path": ""
+    },
+    "logger":{
+        "name": "main_logger",
+        "level": 'DEBUG',
+        "formats": {
+            'default': "%(message)s",
+            'INFO': "%(message)s",
+            'WARNING': "%(levelname)s: %(message)s",
+            'ERROR': "%(levelname)s: %(message)s: Description: %(pathname)s",
+            'CRITICAL': "%(levelname)s: %(message)s: Description: %(pathname)s: %(asctime)s"
+        }
     }
 }
 
@@ -96,6 +107,12 @@ ARGS_CONFIG = [
         "shortcut": "-bpr",
         "help": "Prints bin objects file/dir-names.",
         "action": "store_true"
+    },
+    {
+        "name": "--silent",
+        "shortcut": "-st",
+        "help": "Execute command without output",
+        "action": "store_true"
     }
 ]
 ERROR_MESSAGES = {
@@ -111,5 +128,13 @@ ERROR_MESSAGES = {
 }
 INFO_MESSAGES = {
     'bin_restore': 'To restore files from bin. go to bin(use --binpath option)'
-                   ' and use --restore option to accomplish your goal.'
+                   ' and use --restore option to accomplish your goal.',
+    "bin_copy": "Copy bin to {}.",
+    "bin_move": "Bin folder was moved to location: {}",
+    "bin_empty": "Bin was cleaned",
+    "list_item": "----{};",
+    "bin_path": "Bin location: {}",
+    "bin_create": "Empty bin was created on path: {}",
+    "delete": "Was Deleted: \n {}",
+    "restore": "Was Restored: \n {}"
 }

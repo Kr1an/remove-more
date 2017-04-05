@@ -13,9 +13,15 @@ import os
 import glob
 import fnmatch
 
+import logging
+
 
 from utils.helpers import clean_path
 from utils.managers import user_config_manager, bin_config_manager
+
+from setting.DEFAULT_CONFIGS import INFO_MESSAGES
+
+from utils.helpers.log_helper import  get_log
 
 
 def delete(paths, options=None):
@@ -36,9 +42,12 @@ def delete(paths, options=None):
         del_paths = _get_del_paths(paths, options)
         _copy_to_bin(del_paths, options)
         _delete(del_paths, options)
+        get_log().info(INFO_MESSAGES['delete'].format(
+            '\n '.join(del_paths)
+        ))
         return 0
     except Exception as e:
-        print(e)
+        get_log().error(e)
         return 1
 
 

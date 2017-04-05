@@ -6,6 +6,7 @@ This is the main execution module.
 
 """
 from utils.managers import argument_manager, execution_manager
+from utils.helpers import log_helper
 
 
 def main():
@@ -16,7 +17,9 @@ def main():
     to arguments
 
     """
+
     [paths, options] = argument_manager.parse_arguments()
+    log_helper.setup(options)
     return execution_manager.execute_command(paths, options)
 
 
