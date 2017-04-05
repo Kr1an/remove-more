@@ -128,5 +128,6 @@ INFO_MESSAGES = {
     "bin_path": "Bin location: {}",
     "bin_empty": "Bin was cleaned",
     "bin_create": "Empty bin was created on path: {}",
-    "bin_move": "Bin folder was moved to location: {}"
+    "bin_move": "Bin folder was moved to location: {}",
+    "delete": "Was Deleted: \n {}"
 }
