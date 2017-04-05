@@ -23,23 +23,23 @@ def setup(options=None):
         
     """
     try:
-        if options is None:
+        if options is None or 'silent' in options:
             logging.root.disabled = True
+            return 0
 
         logging_config = app_config_manager.get_property('logger')
 
-        fmt = LvlDependFormatter()
-        hdlr = logging.StreamHandler()
+        formatter = LvlDependFormatter()
+        handler = logging.StreamHandler()
 
         logger = logging.getLogger(logging_config['name'])
         logger.setLevel(logging.getLevelName(logging_config['level']))
 
-        hdlr.setFormatter(fmt)
-        logger.addHandler(hdlr)
-        logger.setLevel(logging.DEBUG)
-
-        if not options or 'silent' in options:
-            logger.disabled = options['silent']
+        handler.setFormatter(formatter)
+        logger.addHandler(handler)
+        if options is None or 'silent' in options:
+            logger.disabled = True
+            return 0
 
         return 0
     except Exception as e:
@@ -57,11 +57,14 @@ def get_log():
 
     """
     try:
-
-        return logging.getLogger(
+        logger = logging.getLogger(
             app_config_manager.get_property('logger.name')
         )
+        logging.root.handlers = []
+        handler = logging.StreamHandler()
+        logging.root.addHandler(handler)
+        logging.root.setLevel(logging.CRITICAL)
+        return logger if len(logger.handlers) else logging.root
     except Exception as e:
-        logging.exception(e)
-        return logging
+        return logging.root
 
