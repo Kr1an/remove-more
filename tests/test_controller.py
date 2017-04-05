@@ -62,7 +62,6 @@ CONTROLLER_PATH = os.path.abspath(
 #         sys.stdout, sys.stderr = old_out, old_err
 
 
-
 class ControllerTestCase(unittest.TestCase):
     def setUp(self):
         self.test_folder_path = TEST_FOLDER_PATH
@@ -85,7 +84,7 @@ class ControllerTestCase(unittest.TestCase):
         os.chdir(self.real_location)
 
     def get_script(self, arguments):
-        return 'python %s %s' % (
+        return 'python %s %s --silent' % (
             CONTROLLER_PATH,
             arguments
         )
@@ -126,7 +125,6 @@ class ControllerTestCase(unittest.TestCase):
     def test_controller_scenario_with_binempty(self):
         file_1 = os.path.join(self.test_folder_path, 'file_1')
         os.mknod(file_1)
-
         self.assertEqual(os.system(self.get_script('%s' % os.path.basename(file_1))), 0)
         self.assertEqual(os.system(self.get_script('--binempty')), 0)
         self.assertEqual(len(bin_config_manager.get_property('history')), 0)
