@@ -11,12 +11,15 @@ Todo:
     * write unittests
 """
 import os
+import logging
 
 from utils.helpers import clean_path
 from utils.managers import bin_config_manager
 from utils.managers import user_config_manager
 
 from setting.DEFAULT_CONFIGS import ERROR_MESSAGES, INFO_MESSAGES
+
+from utils.helpers.log_helper import get_log
 
 
 def copy_bin(path, options=None):
@@ -37,9 +40,10 @@ def copy_bin(path, options=None):
             user_config_manager.get_property('bin_path'),
             os.path.abspath(path)
         )
+        get_log().info(INFO_MESSAGES['bin_copy'].format(os.apth.abspath(path)))
         return 0
     except Exception as e:
-        print(e)
+        get_log().error(e)
         return 1
 
 
@@ -68,7 +72,7 @@ def move_bin(path, options=None):
         )
         return 0
     except Exception as e:
-        print(e)
+        get_log().info(e)
         return 1
 
 
@@ -95,7 +99,7 @@ def create_bin(path, options=None):
         os.mkdir(user_config_manager.get_property('bin_path'))
         return 0
     except Exception as e:
-        print(e)
+        get_log().info(e)
         return 1
 
 
@@ -120,7 +124,7 @@ def empty_bin(options=None):
             )
         return 0
     except Exception as e:
-        print(e)
+        get_log().error(e)
         return 1
 
 
@@ -140,12 +144,12 @@ def get_bin_path(options=None):
     try:
         bin_path = user_config_manager.get_property('bin_path')
         if bin_path:
-            print(bin_path)
+            get_log().warn(bin_path)
         else:
-            print(ERROR_MESSAGES['bin_not_exists'])
+            get_log().warning(ERROR_MESSAGES['bin_not_exists'])
         return 0
     except Exception as e:
-        print(e)
+        get_log().error(e)
         return 1
 
 
@@ -164,11 +168,13 @@ def print_bin(options):
     try:
         history_list = bin_config_manager.get_property('history')
         for history_item in history_list:
-            print('--' + history_item['bin_name'])
+            get_log().info(
+                INFO_MESSAGES['list_item'].format(history_item['bin_name'])
+            )
 
-        print(INFO_MESSAGES['bin_restore'])
+        get_log().info(INFO_MESSAGES['bin_restore'])
         return 0
     except Exception as e:
-        print(e)
+        get_log().exception(e)
         return 1
 
