@@ -35,6 +35,17 @@ APP_CONFIG = {
     "author": "kr1an@hotmail.com",
     "bin_config": {
         "path": ""
+    },
+    "logger":{
+        "name": "main_logger",
+        "level": 'DEBUG',
+        "formats": {
+            'default': "%(message)s",
+            'INFO': "%(message)s",
+            'WARNING': "%(levelname)s: %(message)s",
+            'ERROR': "%(levelname)s: %(message)s: Description: %(pathname)s",
+            'CRITICAL': "%(levelname)s: %(message)s: Description: %(pathname)s: %(asctime)s"
+        }
     }
 }
 
@@ -111,5 +122,7 @@ ERROR_MESSAGES = {
 }
 INFO_MESSAGES = {
     'bin_restore': 'To restore files from bin. go to bin(use --binpath option)'
-                   ' and use --restore option to accomplish your goal.'
+                   ' and use --restore option to accomplish your goal.',
+    "bin_copy": "Copy bin to {}.",
+    "list_item": "----{};"
 }
