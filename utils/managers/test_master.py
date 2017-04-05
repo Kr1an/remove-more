@@ -12,11 +12,16 @@ Todo:
 
 """
 import os
-from utils.managers import install_master
+from utils.managers import install_master, user_config_manager
+from utils.managers import app_config_manager, bin_config_manager
+
 
 
 test_helper = {
-    'is_already_installed': False
+    'is_already_installed': False,
+    'bin_config': {},
+    'user_config': {},
+    'app_config': {}
 }
 
 
@@ -38,7 +43,12 @@ def pre_test_processing():
 
     """
     os.system('gulp backup')
+    test_helper['user_config'] = user_config_manager._get_config()
+    test_helper['app_config'] = app_config_manager._get_config()
+    test_helper['bin_config'] = bin_config_manager._get_config()
     test_helper['is_already_installed'] = install_master.is_installed()
+    print(test_helper['bin_config'])
+
     install_master.remove()
 
 
@@ -51,3 +61,6 @@ def post_test_processing():
     install_master.remove()
     if test_helper['is_already_installed']:
         install_master.install()
+    app_config_manager._set_config(test_helper['app_config'])
+    user_config_manager._set_config(test_helper['user_config'])
+    bin_config_manager._set_config(test_helper['bin_config'])
