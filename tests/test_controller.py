@@ -333,7 +333,7 @@ class ControllerTestCase(unittest.TestCase):
             os.path.basename(dir_3)
         )))
 
-    def test_controller_scenario_with_regex_delete_folders(self):
+    def test_controller_scenario_with_regex_delete_folders_with_two_ast(self):
         dir_1 = os.path.join(self.test_folder_path, 'dir_1')
         dir_2 = os.path.join(dir_1, 'dir_2')
         dir_3 = os.path.join(dir_2, 'dir_3')
@@ -383,3 +383,123 @@ class ControllerTestCase(unittest.TestCase):
     #             history_item['bin_name'] in output,
     #             msg="Does not print all file info."
     #         )
+
+    def test_controller_scenario_with_regex_delete_folders_dry_mod(self):
+        dir_1 = os.path.join(self.test_folder_path, 'dir_1')
+        dir_2 = os.path.join(dir_1, 'dir_2')
+        dir_3 = os.path.join(dir_2, 'dir_3')
+        file_1 = os.path.join(dir_1, 'file_1')
+        file_2 = os.path.join(dir_2, 'file_2')
+        file_3 = os.path.join(dir_3, 'file_3')
+        os.mkdir(dir_1)
+        os.mkdir(dir_2)
+        os.mkdir(dir_3)
+        os.mknod(file_1)
+        os.mknod(file_2)
+        os.mknod(file_3)
+        self.assertEqual(os.system(self.get_script('--regex=./dir_1/**/file_* --dry')), 0)
+
+        self.assertEqual(len(bin_config_manager.get_property('history')), 0)
+        self.assertTrue(os.path.exists(dir_1) and os.path.exists(dir_2) and os.path.exists(dir_3))
+
+    def test_controller_scenario_with_deleting_file_dry_mod(self):
+        file_1 = os.path.join(self.test_folder_path, 'file_1')
+        os.mknod(file_1)
+
+        self.assertEqual(os.system(self.get_script('%s --dry' % os.path.basename(file_1))), 0)
+        self.assertTrue(os.path.exists(file_1))
+        self.assertFalse(os.path.exists(
+            os.path.join(
+                user_config_manager.get_property('bin_path'),
+                os.path.basename(file_1)
+            )
+        ))
+
+    def test_controller_scenario_with_restoring_folder_dry_mod(self):
+        dir_1 = os.path.join(self.test_folder_path, 'dir_1')
+        file_1 = os.path.join(dir_1, 'file_1')
+        os.mkdir(dir_1)
+        os.mknod(file_1)
+
+        self.assertEqual(os.system(self.get_script('%s' % os.path.basename(dir_1))), 0)
+        self.assertEqual(len(bin_config_manager.get_property('history')), 1)
+        os.chdir(os.path.basename(self.test_bin_path))
+        self.assertFalse(os.path.exists(file_1))
+        self.assertFalse(os.path.exists(dir_1))
+        self.assertTrue(os.path.exists(
+            os.path.join(
+                user_config_manager.get_property('bin_path'),
+                bin_config_manager.history_get(os.path.basename(dir_1))['bin_name']
+            )
+        ))
+        self.assertTrue(os.path.exists(
+            os.path.join(
+                user_config_manager.get_property('bin_path'),
+                bin_config_manager.history_get(os.path.basename(dir_1))['bin_name'],
+                os.path.basename(file_1)
+            )
+        ))
+
+        self.assertEqual(os.system(self.get_script('%s --restore --dry' % os.path.basename(dir_1))), 0)
+        self.assertEqual(len(bin_config_manager.get_property('history')), 1)
+
+        self.assertFalse(os.path.exists(file_1))
+        self.assertFalse(os.path.exists(dir_1))
+        self.assertTrue(os.path.exists(
+            os.path.join(
+                user_config_manager.get_property('bin_path'), os.path.basename(dir_1)
+            )
+        ))
+        self.assertTrue(os.path.exists(
+            os.path.join(
+                user_config_manager.get_property('bin_path'),
+                os.path.basename(dir_1),
+                os.path.basename(file_1)
+            )
+        ))
+
+    def test_controller_scenario_with_copy_bin_dry_mod(self):
+        file_1 = os.path.join(self.test_folder_path, 'file_1')
+        copy_rel_bin_path = 'bin/../bin_copy_1'
+        os.mknod(file_1)
+        self.assertEqual(os.system(self.get_script('%s' % os.path.basename(file_1))), 0)
+        self.assertEqual(os.system(self.get_script('--bincopy=%s --dry' % copy_rel_bin_path)), 0)
+
+        self.assertEqual(len(bin_config_manager.get_property('history')), 1)
+        self.assertEqual(
+            self.test_bin_path,
+            user_config_manager.get_property('bin_path')
+        )
+        self.assertEqual(
+            bin_config_manager.history_get(os.path.basename(file_1))['src_dir'],
+            os.path.dirname(file_1)
+        )
+        self.assertTrue(os.path.exists(
+            os.path.join(
+                user_config_manager.get_property('bin_path'),
+                os.path.basename(file_1)
+            )
+        ))
+
+    def test_controller_scenario_with_moving_bin_dry_mod(self):
+        file_1 = os.path.join(self.test_folder_path, 'file_1')
+        new_rel_bin_path = 'bin/../new_bin'
+        os.mknod(file_1)
+        self.assertEqual(os.system(self.get_script('%s' % os.path.basename(file_1))), 0)
+        self.assertEqual(os.system(self.get_script('--binmove=%s --dry' % new_rel_bin_path)), 0)
+
+        self.assertEqual(len(bin_config_manager.get_property('history')), 1)
+        self.assertEqual(
+            self.test_bin_path,
+            user_config_manager.get_property('bin_path')
+        )
+        self.assertEqual(
+            bin_config_manager.history_get(os.path.basename(file_1))['src_dir'],
+            os.path.dirname(file_1)
+        )
+        self.assertTrue(os.path.exists(
+            os.path.join(
+                user_config_manager.get_property('bin_path'),
+                os.path.basename(file_1)
+            )
+        ))
