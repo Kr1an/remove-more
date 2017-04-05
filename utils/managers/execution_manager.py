@@ -87,7 +87,8 @@ def _valid_command(paths, options):
         elif not bin_config_manager.is_valid():
             raise Exception(ERROR_MESSAGES['bin_config_error'])
         elif not os.path.isdir(user_config_manager.get_property('bin_path')):
-            raise Exception(ERROR_MESSAGES['bin_not_exists'])
+            if 'bincreate' not in options['mods']:
+                raise Exception(ERROR_MESSAGES['bin_not_exists'])
         return True
     except Exception as e:
         print(e)
