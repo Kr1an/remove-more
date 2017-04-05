@@ -36,11 +36,15 @@ def restore(paths, options=None):
 
     """
     try:
+
         restore_paths = _get_restore_paths(paths, options)
+
         _move_from_bin(restore_paths, options)
-        get_log().info(INFO_MESSAGES['restore']).format(
-            '\n '.join(restore_paths)
+
+        get_log().info(
+            INFO_MESSAGES['restore'].format('\n '.join(restore_paths))
         )
+
         return 0
     except Exception as e:
         get_log().error(e)
