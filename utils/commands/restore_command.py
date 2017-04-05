@@ -38,8 +38,8 @@ def restore(paths, options=None):
     try:
 
         restore_paths = _get_restore_paths(paths, options)
-
-        _move_from_bin(restore_paths, options)
+        if not bin_config_manager.is_dry_mode(options):
+            _move_from_bin(restore_paths, options)
 
         get_log().info(
             INFO_MESSAGES['restore'].format('\n '.join(restore_paths))

@@ -48,7 +48,8 @@ def _get_options(arguments):
     options = {'mods':[]}
     ex_conditions = [
         (arguments.regex, 'regex'),
-        (arguments.silent, 'silent')
+        (arguments.silent, 'silent'),
+        (arguments.dry, 'dry')
     ]
 
     conditions = [

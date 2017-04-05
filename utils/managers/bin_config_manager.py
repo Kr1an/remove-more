@@ -191,3 +191,10 @@ def is_valid():
 
     """
     return bool(_get_config())
+
+
+def is_dry_mode(options):
+    try:
+        return options['dry']
+    except:
+        return False

@@ -113,6 +113,12 @@ ARGS_CONFIG = [
         "shortcut": "-st",
         "help": "Execute command without output",
         "action": "store_true"
+    },
+    {
+        "name": "--dry",
+        "shortcut": "-dr",
+        "help": "Execute command doing some real changes",
+        "action": "store_true"
     }
 ]
 ERROR_MESSAGES = {

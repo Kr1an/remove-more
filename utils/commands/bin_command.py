@@ -36,10 +36,11 @@ def copy_bin(path, options=None):
 
     """
     try:
-        clean_path.copy(
-            user_config_manager.get_property('bin_path'),
-            os.path.abspath(path)
-        )
+        if not bin_config_manager.is_dry_mode(options):
+            clean_path.copy(
+                user_config_manager.get_property('bin_path'),
+                os.path.abspath(path)
+            )
         get_log().info(INFO_MESSAGES['bin_copy'].format(os.path.abspath(path)))
         return 0
     except Exception as e:
@@ -62,14 +63,15 @@ def move_bin(path, options=None):
 
     """
     try:
-        clean_path.move(
-            user_config_manager.get_property('bin_path'),
-            os.path.abspath(path)
-        )
-        user_config_manager.set_property(
-            'bin_path',
-            os.path.abspath(path)
-        )
+        if not bin_config_manager.is_dry_mode(options):
+            clean_path.move(
+                user_config_manager.get_property('bin_path'),
+                os.path.abspath(path)
+            )
+            user_config_manager.set_property(
+                'bin_path',
+                os.path.abspath(path)
+            )
         get_log().info(
             INFO_MESSAGES['bin_move'].format(os.path.abspath(path))
         )
@@ -94,12 +96,13 @@ def create_bin(path, options=None):
 
         """
     try:
-        user_config_manager.set_property(
-            'bin_path',
-            os.path.abspath(path)
-        )
-        bin_config_manager.history_empty()
-        os.mkdir(user_config_manager.get_property('bin_path'))
+        if not bin_config_manager.is_dry_mode(options):
+            user_config_manager.set_property(
+                'bin_path',
+                os.path.abspath(path)
+            )
+            bin_config_manager.history_empty()
+            os.mkdir(user_config_manager.get_property('bin_path'))
         get_log().info(
             INFO_MESSAGES['bin_create'].format(os.path.abspath(path))
         )
@@ -122,12 +125,13 @@ def empty_bin(options=None):
 
     """
     try:
-        for history_item in bin_config_manager.get_property('history'):
-            bin_config_manager.history_del(history_item['bin_name'])
-            clean_path.delete(
-                user_config_manager.get_property('bin_path'),
-                history_item['bin_name']
-            )
+        if not bin_config_manager.is_dry_mode(options):
+            for history_item in bin_config_manager.get_property('history'):
+                bin_config_manager.history_del(history_item['bin_name'])
+                clean_path.delete(
+                    user_config_manager.get_property('bin_path'),
+                    history_item['bin_name']
+                )
         get_log().info(INFO_MESSAGES['bin_empty'])
         return 0
     except Exception as e:
