@@ -40,7 +40,7 @@ def copy_bin(path, options=None):
             user_config_manager.get_property('bin_path'),
             os.path.abspath(path)
         )
-        get_log().info(INFO_MESSAGES['bin_copy'].format(os.apth.abspath(path)))
+        get_log().info(INFO_MESSAGES['bin_copy'].format(os.path.abspath(path)))
         return 0
     except Exception as e:
         get_log().error(e)
@@ -70,9 +70,12 @@ def move_bin(path, options=None):
             'bin_path',
             os.path.abspath(path)
         )
+        get_log().info(
+            INFO_MESSAGES['bin_move'].format(os.path.abspath(path))
+        )
         return 0
     except Exception as e:
-        get_log().info(e)
+        get_log().error(e)
         return 1
 
 
@@ -97,9 +100,12 @@ def create_bin(path, options=None):
         )
         bin_config_manager.history_empty()
         os.mkdir(user_config_manager.get_property('bin_path'))
+        get_log().info(
+            INFO_MESSAGES['bin_create'].format(os.path.abspath(path))
+        )
         return 0
     except Exception as e:
-        get_log().info(e)
+        get_log().error(e)
         return 1
 
 
@@ -122,6 +128,7 @@ def empty_bin(options=None):
                 user_config_manager.get_property('bin_path'),
                 history_item['bin_name']
             )
+        get_log().info(INFO_MESSAGES['bin_empty'])
         return 0
     except Exception as e:
         get_log().error(e)
@@ -144,7 +151,7 @@ def get_bin_path(options=None):
     try:
         bin_path = user_config_manager.get_property('bin_path')
         if bin_path:
-            get_log().warn(bin_path)
+            get_log().info(INFO_MESSAGES['bin_path'].format(bin_path))
         else:
             get_log().warning(ERROR_MESSAGES['bin_not_exists'])
         return 0
@@ -175,6 +182,6 @@ def print_bin(options):
         get_log().info(INFO_MESSAGES['bin_restore'])
         return 0
     except Exception as e:
-        get_log().exception(e)
+        get_log().error(e)
         return 1
 

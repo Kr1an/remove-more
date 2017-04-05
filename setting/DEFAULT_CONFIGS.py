@@ -124,5 +124,9 @@ INFO_MESSAGES = {
     'bin_restore': 'To restore files from bin. go to bin(use --binpath option)'
                    ' and use --restore option to accomplish your goal.',
     "bin_copy": "Copy bin to {}.",
-    "list_item": "----{};"
+    "list_item": "----{};",
+    "bin_path": "Bin location: {}",
+    "bin_empty": "Bin was cleaned",
+    "bin_create": "Empty bin was created on path: {}",
+    "bin_move": "Bin folder was moved to location: {}"
 }
