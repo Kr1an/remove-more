@@ -15,6 +15,9 @@ understand how UserConfigManager works.
 import json
 import os
 
+from time import gmtime
+from datetime import datetime
+
 from utils.helpers import property_reader, property_writer
 from utils.managers import app_config_manager
 from utils.managers import user_config_manager
@@ -25,6 +28,10 @@ from setting import DEFAULT_CONFIGS
 def history_get(bin_name, options=None):
     for history_item in get_property('history'):
         if history_item['bin_name'] == bin_name:
+            history_item['date'] = datetime.strptime(
+                history_item['date'],
+                "%Y.%m.%d"
+            )
             return history_item
     return None
 
@@ -37,7 +44,8 @@ def history_empty(options=None):
 def history_add(src, options=None):
     history_item = {
         'src_dir': os.path.dirname(src),
-        'bin_name': os.path.basename(src)
+        'bin_name': os.path.basename(src),
+        'date': datetime.strftime(datetime.now(), "%Y.%m.%d")
     }
     set_property('history', get_property('history') + [history_item])
 
