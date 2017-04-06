@@ -23,8 +23,12 @@ import unittest
 import os
 import shutil
 
+from datetime import datetime
+
 from utils.helpers import clean_path
 from utils.managers import user_config_manager, bin_config_manager, app_config_manager
+
+from setting.DEFAULT_CONFIGS import HISTORY_DATETIME_FORMAT
 
 TEST_FOLDER_PATH = \
     os.path.abspath(
@@ -144,4 +148,20 @@ class BinConfigManagerTestCase(unittest.TestCase):
         self.assertEqual(
             bin_config_manager.history_get(file_1_name)['bin_name'],
             os.path.basename(file_1)
+        )
+
+    def test_history_get_with_date(self):
+        file_1 = os.path.join(self.test_bin_path, 'file_1')
+        file_1_name = os.path.basename(file_1)
+        cur_datetime = datetime.strptime(
+            datetime.strftime(
+                datetime.now(),
+                HISTORY_DATETIME_FORMAT
+            ),
+            HISTORY_DATETIME_FORMAT
+        )
+        bin_config_manager.history_add(file_1)
+        self.assertEqual(
+            bin_config_manager.history_get(file_1_name)['date'],
+            cur_datetime
         )
