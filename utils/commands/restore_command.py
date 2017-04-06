@@ -22,6 +22,8 @@ from setting.DEFAULT_CONFIGS import INFO_MESSAGES
 
 from utils.helpers import ascii_bar
 
+from utils.helpers.confirmer import confirm_question
+
 
 def restore(paths, options=None):
     """Restore Function
@@ -40,6 +42,14 @@ def restore(paths, options=None):
     try:
 
         restore_paths = _get_restore_paths(paths, options)
+        if not confirm_question(
+            "Try to restore: \n{}\n".format(
+                "\n".join(map(lambda x: '--' + x, restore_paths))
+            ),
+            "no", options
+        ):
+            return 1
+
         if not bin_config_manager.is_dry_mode(options):
             _move_from_bin(restore_paths, options)
 

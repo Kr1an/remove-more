@@ -49,7 +49,8 @@ def _get_options(arguments):
     ex_conditions = [
         (arguments.regex, 'regex'),
         (arguments.silent, 'silent'),
-        (arguments.dry, 'dry')
+        (arguments.dry, 'dry'),
+        (arguments.confirm, 'confirm')
     ]
 
     conditions = [

@@ -119,6 +119,12 @@ ARGS_CONFIG = [
         "shortcut": "-dr",
         "help": "Execute command doing some real changes",
         "action": "store_true"
+    },
+    {
+        "name": "--confirm",
+        "shortcut": "-cm",
+        "help": "Run command with user confirmation",
+        "action": "store_true"
     }
 ]
 ERROR_MESSAGES = {
