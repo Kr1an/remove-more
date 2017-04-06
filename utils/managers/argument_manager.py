@@ -50,7 +50,8 @@ def _get_options(arguments):
         (arguments.regex, 'regex'),
         (arguments.silent, 'silent'),
         (arguments.dry, 'dry'),
-        (arguments.confirm, 'confirm')
+        (arguments.confirm, 'confirm'),
+        (arguments.loglvl, 'loglvl')
     ]
 
     conditions = [
