@@ -143,5 +143,6 @@ INFO_MESSAGES = {
     "bin_create": "Empty bin was created on path: {}",
     "delete": "Was Deleted: \n {}",
     "restore": "Was Restored: \n {}",
-    "progress": "{} {} -> {}\033[F'"
+    "progress_res": "{} ... Restore {}",
+    "progress_del": "{} ... Delete {}"
 }
