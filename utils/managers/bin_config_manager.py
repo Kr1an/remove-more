@@ -45,6 +45,7 @@ def history_empty(options=None):
 
 def history_add(src, options=None):
     history_item = {
+        'src_name': os.path.basename(src),
         'src_dir': os.path.dirname(src),
         'bin_name': os.path.basename(src),
         'date': datetime.strftime(

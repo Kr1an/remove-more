@@ -148,3 +148,43 @@ class RestoreCommandTestCase(unittest.TestCase):
                 )
             ])
         )
+
+    def test_restore_with_different_src_bin_names(self):
+        file_1 = os.path.join(self.test_folder_path, 'file_1')
+        file_new_base_name = 'file_2'
+        os.mknod(file_1)
+        delete_command.delete([file_1])
+        self.assertFalse(os.path.exists(file_1))
+        self.assertTrue(os.path.exists(os.path.join(
+            user_config_manager.get_property('bin_path'),
+            os.path.basename(file_1)
+        )))
+        history_item = bin_config_manager.history_get(os.path.basename(file_1))
+        history_item['src_name'] = 'file_2'
+        history_item['date'] = '1997.12.17'
+        bin_config_manager.set_property('history', [history_item])
+
+        self.assertEqual(
+            restore_command.restore(
+                [os.path.join(
+                    user_config_manager.get_property('bin_path'),
+                    bin_config_manager.history_get('file_1')['bin_name']
+                )]
+            ),
+            0
+        )
+        self.assertTrue(
+            os.path.isfile(
+                os.path.join(
+                    os.path.dirname(file_1),
+                    file_new_base_name
+                )
+            )
+        )
+        self.assertFalse(
+            os.path.exists(
+                file_1
+            )
+        )
+
+

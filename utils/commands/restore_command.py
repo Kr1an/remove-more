@@ -84,7 +84,7 @@ def _move_from_bin(paths, options=None):
             ),
             os.path.join(
                 bin_config_manager.history_get(path, options)['src_dir'],
-                bin_config_manager.history_get(path, options)['bin_name'],
+                bin_config_manager.history_get(path, options)['src_name'],
             ),
             options
         )
