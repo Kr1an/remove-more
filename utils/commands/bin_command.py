@@ -20,6 +20,7 @@ from utils.managers import user_config_manager
 from setting.DEFAULT_CONFIGS import ERROR_MESSAGES, INFO_MESSAGES
 
 from utils.helpers.log_helper import get_log
+from utils.helpers import ascii_bar
 
 
 def copy_bin(path, options=None):
@@ -126,11 +127,23 @@ def empty_bin(options=None):
     """
     try:
         if not bin_config_manager.is_dry_mode(options):
-            for history_item in bin_config_manager.get_property('history'):
+            history_items = bin_config_manager.get_property('history')
+            for history_item in history_items:
                 bin_config_manager.history_del(history_item['bin_name'])
                 clean_path.delete(
-                    user_config_manager.get_property('bin_path'),
-                    history_item['bin_name']
+                    os.path.join(
+                        user_config_manager.get_property('bin_path'),
+                        history_item['bin_name']
+                    )
+                )
+                get_log().info(
+                    INFO_MESSAGES['progress_del'].format(
+                        ascii_bar.get_progress_bar(
+                            history_items.index(history_item)+1,
+                            len(history_items)
+                        ),
+                        history_item['bin_name'],
+                    )
                 )
         get_log().info(INFO_MESSAGES['bin_empty'])
         return 0

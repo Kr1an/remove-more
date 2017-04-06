@@ -225,6 +225,7 @@ class BinCommandTestCase(unittest.TestCase):
                 )
             )
         )
+
         self.assertFalse(os.path.exists(file_1), msg="File should be in bin.")
         self.assertEqual(
             bin_config_manager.history_get('file_1')['src_dir'],
@@ -235,6 +236,12 @@ class BinCommandTestCase(unittest.TestCase):
             bin_command.empty_bin(),
             0,
             msg='Bin command should return success code: 0.'
+        )
+        self.assertTrue(
+            os.path.isdir(
+                user_config_manager.get_property('bin_path')
+            ),
+            msg="Binempty should not delete existing bin folder."
         )
         self.assertFalse(
             os.path.exists(

@@ -23,6 +23,8 @@ from setting.DEFAULT_CONFIGS import INFO_MESSAGES
 
 from utils.helpers.log_helper import  get_log
 
+from utils.helpers import ascii_bar
+
 
 def delete(paths, options=None):
     """Delete Function
@@ -145,3 +147,12 @@ def _delete(paths, options=None):
     """
     for path in paths:
         clean_path.delete(path, options)
+        get_log().info(
+            INFO_MESSAGES['progress_del'].format(
+                ascii_bar.get_progress_bar(
+                    paths.index(path) + 1,
+                    len(paths)
+                ),
+                path
+            )
+        )

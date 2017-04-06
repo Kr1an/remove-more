@@ -137,10 +137,12 @@ INFO_MESSAGES = {
                    ' and use --restore option to accomplish your goal.',
     "bin_copy": "Copy bin to {}.",
     "bin_move": "Bin folder was moved to location: {}",
-    "bin_empty": "Bin was cleaned",
+    "bin_empty": "\nBin was cleaned",
     "list_item": "----{};",
     "bin_path": "Bin location: {}",
     "bin_create": "Empty bin was created on path: {}",
     "delete": "Was Deleted: \n {}",
-    "restore": "Was Restored: \n {}"
+    "restore": "Was Restored: \n {}",
+    "progress_res": "{} ... Restore {}",
+    "progress_del": "{} ... Delete {}"
 }

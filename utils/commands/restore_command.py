@@ -20,6 +20,8 @@ from utils.helpers.log_helper import get_log
 
 from setting.DEFAULT_CONFIGS import INFO_MESSAGES
 
+from utils.helpers import ascii_bar
+
 
 def restore(paths, options=None):
     """Restore Function
@@ -77,6 +79,15 @@ def _move_from_bin(paths, options=None):
             options
         )
         bin_config_manager.history_del(path, options)
+        get_log().info(
+            INFO_MESSAGES['progress_res'].format(
+                ascii_bar.get_progress_bar(
+                    paths.index(path) + 1,
+                    len(paths)
+                ),
+                path
+            )
+        )
 
 
 def _get_restore_paths(paths, options=None):
