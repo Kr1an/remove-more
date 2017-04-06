@@ -122,9 +122,15 @@ ARGS_CONFIG = [
     },
     {
         "name": "--confirm",
-        "shortcut": "-cm",
+        "shortcut": "-c",
         "help": "Run command with user confirmation",
         "action": "store_true"
+    },
+    {
+        "name": "--loglvl",
+        "shortcut": "-ll",
+        "help": "Run command with user confirmation",
+        "action": "store"
     }
 ]
 ERROR_MESSAGES = {

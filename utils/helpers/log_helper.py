@@ -33,7 +33,10 @@ def setup(options=None):
         handler = logging.StreamHandler()
 
         logger = logging.getLogger(logging_config['name'])
-        logger.setLevel(logging.getLevelName(logging_config['level']))
+        if 'loglvl' in options and options['loglvl'] in logging._levelNames:
+            logger.setLevel(logging.getLevelName(options['loglvl']))
+        else:
+            logger.setLevel(logging.getLevelName(logging_config['level']))
 
         handler.setFormatter(formatter)
         logger.handlers = []
