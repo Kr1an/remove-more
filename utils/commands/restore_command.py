@@ -46,7 +46,7 @@ def restore(paths, options=None):
             "Try to restore: \n{}\n".format(
                 "\n".join(map(lambda x: '--' + x, restore_paths))
             ),
-            default="no"
+            "no", options
         ):
             return 1
 

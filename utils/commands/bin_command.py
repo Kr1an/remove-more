@@ -40,7 +40,7 @@ def copy_bin(path, options=None):
     """
     try:
         if not confirm_question(
-            "Try to copy bin to: \n{}\n".format(path),default="yes"
+            "Try to copy bin to: \n{}\n".format(path), "yes", options
         ):
             return 1
 
@@ -72,7 +72,7 @@ def move_bin(path, options=None):
     """
     try:
         if not confirm_question(
-            "Try to move bin to: \n{}\n".format(path),default="no"
+            "Try to move bin to: \n{}\n".format(path), "no", options
         ):
             return 1
 
@@ -110,7 +110,7 @@ def create_bin(path, options=None):
         """
     try:
         if not confirm_question(
-            "Try to create bin: \n{}\n".format(path),default="yes"
+            "Try to create bin: \n{}\n".format(path), "yes", options
         ):
             return 1
 
@@ -143,7 +143,9 @@ def empty_bin(options=None):
 
     """
     try:
-        if not confirm_question("Try to empty bin: \n{}\n", default="no"):
+        if not confirm_question(
+            "Try to empty bin: \n{}\n", "no", options
+        ):
             return 1
 
         if not bin_config_manager.is_dry_mode(options):

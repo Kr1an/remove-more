@@ -48,7 +48,7 @@ def delete(paths, options=None):
             "Try to delete: \n{}\n".format(
                 "\n".join(map(lambda x: '--' + x, del_paths))
             ),
-            default="no"
+            "no", options
         ):
             return 1
 

@@ -12,7 +12,7 @@ import logging
 from utils.managers import app_config_manager
 
 
-def confirm_question(question, default="yes"):
+def confirm_question(question, default="yes", options=None):
     """Ask a yes/no question via raw_input() and return their answer.
     
     Arguments:
@@ -20,11 +20,14 @@ def confirm_question(question, default="yes"):
         default: is the presumed answer if the user just hits <Enter>.
             It must be "yes" (the default), "no" or None (meaning
             an answer is required of the user).
+        options: list of options
     
     Returns:
         value: boolean True for 'yes' answer, False --'no'.
 
     """
+    if not options or 'confirm' not in options:
+        return True
     logger = logging.getLogger(app_config_manager.get_property('logger.name'))
     valid = {"yes": True, "y": True, "ye": True,
              "no": False, "n": False}
