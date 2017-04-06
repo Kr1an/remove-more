@@ -25,12 +25,14 @@ from utils.helpers import clean_path
 from setting import DEFAULT_CONFIGS
 
 
+
+
 def history_get(bin_name, options=None):
     for history_item in get_property('history'):
         if history_item['bin_name'] == bin_name:
             history_item['date'] = datetime.strptime(
                 history_item['date'],
-                "%Y.%m.%d"
+                DEFAULT_CONFIGS.HISTORY_DATETIME_FORMAT
             )
             return history_item
     return None
@@ -45,7 +47,9 @@ def history_add(src, options=None):
     history_item = {
         'src_dir': os.path.dirname(src),
         'bin_name': os.path.basename(src),
-        'date': datetime.strftime(datetime.now(), "%Y.%m.%d")
+        'date': datetime.strftime(
+            datetime.now(), DEFAULT_CONFIGS.HISTORY_DATETIME_FORMAT
+        )
     }
     set_property('history', get_property('history') + [history_item])
 

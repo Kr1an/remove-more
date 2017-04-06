@@ -158,3 +158,4 @@ INFO_MESSAGES = {
     "progress_res": "{} ... Restore {}",
     "progress_del": "{} ... Delete {}"
 }
+HISTORY_DATETIME_FORMAT = "%Y.%m.%d"
