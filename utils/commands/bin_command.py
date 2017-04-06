@@ -22,6 +22,8 @@ from setting.DEFAULT_CONFIGS import ERROR_MESSAGES, INFO_MESSAGES
 from utils.helpers.log_helper import get_log
 from utils.helpers import ascii_bar
 
+from utils.helpers.confirmer import confirm_question
+
 
 def copy_bin(path, options=None):
     """Copy Function
@@ -37,6 +39,11 @@ def copy_bin(path, options=None):
 
     """
     try:
+        if not confirm_question(
+            "Try to copy bin to: \n{}\n".format(path),default="yes"
+        ):
+            return 1
+
         if not bin_config_manager.is_dry_mode(options):
             clean_path.copy(
                 user_config_manager.get_property('bin_path'),
@@ -64,6 +71,11 @@ def move_bin(path, options=None):
 
     """
     try:
+        if not confirm_question(
+            "Try to move bin to: \n{}\n".format(path),default="no"
+        ):
+            return 1
+
         if not bin_config_manager.is_dry_mode(options):
             clean_path.move(
                 user_config_manager.get_property('bin_path'),
@@ -97,6 +109,11 @@ def create_bin(path, options=None):
 
         """
     try:
+        if not confirm_question(
+            "Try to create bin: \n{}\n".format(path),default="yes"
+        ):
+            return 1
+
         if not bin_config_manager.is_dry_mode(options):
             user_config_manager.set_property(
                 'bin_path',
@@ -126,6 +143,9 @@ def empty_bin(options=None):
 
     """
     try:
+        if not confirm_question("Try to empty bin: \n{}\n", default="no"):
+            return 1
+
         if not bin_config_manager.is_dry_mode(options):
             history_items = bin_config_manager.get_property('history')
             for history_item in history_items:

@@ -12,7 +12,7 @@ import logging
 from utils.managers import app_config_manager
 
 
-def question_yes_no(question, default="yes"):
+def confirm_question(question, default="yes"):
     """Ask a yes/no question via raw_input() and return their answer.
     
     Arguments:

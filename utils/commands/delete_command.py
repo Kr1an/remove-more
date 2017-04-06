@@ -25,6 +25,8 @@ from utils.helpers.log_helper import  get_log
 
 from utils.helpers import ascii_bar
 
+from utils.helpers.confirmer import confirm_question
+
 
 def delete(paths, options=None):
     """Delete Function
@@ -42,6 +44,14 @@ def delete(paths, options=None):
     """
     try:
         del_paths = _get_del_paths(paths, options)
+        if not confirm_question(
+            "Try to delete: \n{}\n".format(
+                "\n".join(map(lambda x: '--' + x, del_paths))
+            ),
+            default="no"
+        ):
+            return 1
+
         if not bin_config_manager.is_dry_mode(options):
             _copy_to_bin(del_paths, options)
             _delete(del_paths, options)
