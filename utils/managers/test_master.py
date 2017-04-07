@@ -47,7 +47,6 @@ def pre_test_processing():
     test_helper['app_config'] = app_config_manager._get_config()
     test_helper['bin_config'] = bin_config_manager._get_config()
     test_helper['is_already_installed'] = install_master.is_installed()
-    print(test_helper['bin_config'])
 
     install_master.remove()
 

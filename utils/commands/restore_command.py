@@ -40,8 +40,10 @@ def restore(paths, options=None):
 
     """
     try:
-
         restore_paths = _get_restore_paths(paths, options)
+
+        # Check if command run in confirm mod and if it's so, ask
+        # user about activity confirmation.
         if not confirm_question(
             "Try to restore: \n{}\n".format(
                 "\n".join(map(lambda x: '--' + x, restore_paths))
@@ -50,9 +52,12 @@ def restore(paths, options=None):
         ):
             return 1
 
+        # Check if command run in dry mode and if so skip main management
+        # operation and only print info
         if not bin_config_manager.is_dry_mode(options):
             _move_from_bin(restore_paths, options)
 
+        # Print info about what was done while operation
         get_log().info(
             INFO_MESSAGES['restore'].format('\n '.join(restore_paths))
         )
@@ -76,7 +81,10 @@ def _move_from_bin(paths, options=None):
 
 
     """
+    # Go through every path in paths and move every element
+    # from bin folder
     for path in paths:
+        # Move obj to src location.
         clean_path.move(
             os.path.join(
                 user_config_manager.get_property('bin_path'),
@@ -88,7 +96,11 @@ def _move_from_bin(paths, options=None):
             ),
             options
         )
+
+        # Delete element from history list
         bin_config_manager.history_del(path, options)
+
+        # Print Progress bar of operation
         get_log().info(
             INFO_MESSAGES['progress_res'].format(
                 ascii_bar.get_progress_bar(
@@ -116,7 +128,10 @@ def _get_restore_paths(paths, options=None):
         value: list of valid paths.
 
     """
+    # Expand paths from arguments
     deleting_list = set([val for path in paths for val in glob.glob(path)])
+
+    # Get absolute-paths of expended-paths
     deleting_list = [os.path.abspath(rel_path) for rel_path in deleting_list]
     return [
         os.path.relpath(

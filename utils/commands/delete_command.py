@@ -44,6 +44,8 @@ def delete(paths, options=None):
     """
     try:
         del_paths = _get_del_paths(paths, options)
+        # Check if command run in confirm mod and if it's so, ask
+        # user about activity confirmation.
         if not confirm_question(
             "Try to delete: \n{}\n".format(
                 "\n".join(map(lambda x: '--' + x, del_paths))
@@ -52,9 +54,12 @@ def delete(paths, options=None):
         ):
             return 1
 
+        # Check if command run in dry mode and if so skip main management
+        # operation and only print info
         if not bin_config_manager.is_dry_mode(options):
             _copy_to_bin(del_paths, options)
             _delete(del_paths, options)
+        # Print info about what was done while operation
         get_log().info(INFO_MESSAGES['delete'].format(
             '\n '.join(del_paths)
         ))
@@ -101,8 +106,10 @@ def _get_del_paths(paths, options=None):
         value: list of valid paths.
 
     """
+    # Get paths if it was passed by regex option.
     if options and 'regex' in options:
         deleting_list = _get_paths_from_regex(options['regex'])
+    # Get paths otherwise
     else:
         deleting_list = set([val for path in paths for val in glob.glob(path)])
     deleting_list = [os.path.abspath(rel_path) for rel_path in deleting_list]
@@ -126,16 +133,21 @@ def _get_paths_from_regex(regex):
         value: list of valid paths.
 
     """
+    # Get paths if regex does not have '**'-recursive mark
     if '**' not in regex:
         return glob.glob(regex)
+    # Get paths if regex does have '**'
     else:
         path = regex
+        # Get First(deepest) possible folder in path
         while not os.path.exists(os.path.abspath(path)) and path != '/':
             path = os.path.dirname(path)
 
         reg_suffix = os.path.basename(regex)
         paths = []
 
+        # Walk recursive with in found folder and check every file
+        # to be equal to reg_suffix
         for root, dirs, files in os.walk(os.path.abspath(path)):
             for file in fnmatch.filter(files, reg_suffix):
                 paths.append(os.path.join(root, file))
@@ -155,8 +167,11 @@ def _delete(paths, options=None):
         options: list of delete politics.
 
     """
+    # Go through ecery path and delete it from
+    # src location.
     for path in paths:
         clean_path.delete(path, options)
+        # Print progress of operation
         get_log().info(
             INFO_MESSAGES['progress_del'].format(
                 ascii_bar.get_progress_bar(
