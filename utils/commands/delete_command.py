@@ -19,7 +19,7 @@ import logging
 from utils.helpers import clean_path
 from utils.managers import user_config_manager, bin_config_manager
 
-from setting.DEFAULT_CONFIGS import INFO_MESSAGES
+from setting.DEFAULT_CONFIGS import INFO_MESSAGES, HISTORY_COPY_NAME_FORMAT
 
 from utils.helpers.log_helper import  get_log
 
@@ -69,6 +69,81 @@ def delete(paths, options=None):
         return 1
 
 
+def _copy_by_force_way(path, options):
+    """Copy By Force Way
+
+    Function allow to delete file/dir... to bin by rename way if name
+    collision exists.
+
+    Arguments:
+        path: path to source.
+        options: list of optional parameters.
+
+    """
+    if os.path.exists(
+        os.path.join(
+            user_config_manager.get_property('bin_path'),
+            os.path.basename(path)
+        )
+    ):
+        bin_config_manager.history_del(os.path.basename(path))
+        clean_path.delete(
+            os.path.join(
+                user_config_manager.get_property('bin_path'),
+                os.path.basename(path)
+            )
+        )
+    bin_config_manager.history_add(path)
+    clean_path.copy(
+        path,
+        os.path.join(
+            user_config_manager.get_property('bin_path'),
+            os.path.basename(path)
+        ),
+        options
+    )
+
+
+def _copy_by_rename_way(path, options):
+    """Copy By Renam Way
+    
+    Function allow to delete file/dir... to bin by rename way if name
+    collision exists.
+    
+    Arguments:
+        path: path to source.
+        options: list of optional parameters.
+    
+    """
+    src_name = os.path.basename(path)
+    src_dir = os.path.dirname(path)
+    bin_name = os.path.basename(path)
+    if bin_config_manager.history_get(bin_name, options):
+
+        count = 0
+        while True:
+
+            tmp_bin_name = HISTORY_COPY_NAME_FORMAT.format(bin_name, count)
+            print(tmp_bin_name)
+            if not bin_config_manager.history_get(tmp_bin_name, options):
+                break
+            count += 1
+        bin_name = tmp_bin_name
+
+    clean_path.copy(
+        path, os.path.join(user_config_manager.get_property('bin_path'), bin_name),
+        options
+    )
+    bin_config_manager.history_add(
+        {
+            'src_name': src_name,
+            'src_dir': src_dir,
+            'bin_name': bin_name
+        },
+        options
+    )
+
+
 def _copy_to_bin(paths, options=None):
     """Copy To Bin Function
     
@@ -83,11 +158,10 @@ def _copy_to_bin(paths, options=None):
 
     """
     for path in paths:
-        clean_path.copy(
-            path, user_config_manager.get_property('bin_path'),
-            options
-        )
-        bin_config_manager.history_add(path, options)
+        if options and 'force' in options:
+            _copy_by_force_way(path, options)
+        else:
+            _copy_by_rename_way(path, options)
 
 
 def _get_del_paths(paths, options=None):
