@@ -26,7 +26,7 @@ from utils.commands import bin_command
 from contextlib import contextmanager
 from StringIO import StringIO
 
-from setting.DEFAULT_CONFIGS import ERROR_MESSAGES
+from setting.DEFAULT_CONFIGS import ERROR_MESSAGES, HISTORY_COPY_NAME_FORMAT
 
 
 TEST_FOLDER_PATH = os.path.abspath(
@@ -503,3 +503,69 @@ class ControllerTestCase(unittest.TestCase):
                 os.path.basename(file_1)
             )
         ))
+
+    def test_delete_with_collision(self):
+        file_1 = os.path.join(self.test_folder_path, 'file_1')
+        os.mknod(file_1)
+        self.assertEqual(os.system(self.get_script('%s' % os.path.basename(file_1))), 0)
+        os.mknod(file_1)
+        self.assertEqual(os.system(self.get_script('%s' % os.path.basename(file_1))), 0)
+        self.assertTrue(
+            bin_config_manager.history_get(os.path.basename(file_1))
+        )
+        self.assertTrue(
+            bin_config_manager.history_get(
+                HISTORY_COPY_NAME_FORMAT.format(
+                    os.path.basename(file_1),
+                    0
+                )
+            )
+        )
+        self.assertTrue(os.path.exists(
+            os.path.join(self.test_bin_path, 'file_1')
+        ))
+        self.assertTrue(os.path.exists(
+            os.path.join(
+                self.test_bin_path,
+                HISTORY_COPY_NAME_FORMAT.format(
+                    os.path.basename(file_1),
+                    0
+                )
+            )
+        ))
+
+    def test_delete_with_collision_force(self):
+        file_1 = os.path.join(self.test_folder_path, 'file_1')
+        os.mknod(file_1)
+        self.assertEqual(os.system(self.get_script('%s' % os.path.basename(file_1))), 0)
+        os.mknod(file_1)
+        self.assertEqual(os.system(self.get_script('%s --force' % os.path.basename(file_1))), 0)
+        self.assertTrue(
+            bin_config_manager.history_get(os.path.basename(file_1))
+        )
+        self.assertFalse(
+            bin_config_manager.history_get(
+                HISTORY_COPY_NAME_FORMAT.format(
+                    os.path.basename(file_1),
+                    0
+                )
+            )
+        )
+        self.assertEqual(
+            len(bin_config_manager.get_property('history')),
+            1
+        )
+        self.assertTrue(os.path.exists(
+            os.path.join(self.test_bin_path, 'file_1')
+        ))
+        self.assertFalse(os.path.exists(
+            os.path.join(
+                self.test_bin_path,
+                HISTORY_COPY_NAME_FORMAT.format(
+                    os.path.basename(file_1),
+                    0
+                )
+            )
+        ))
+
+
