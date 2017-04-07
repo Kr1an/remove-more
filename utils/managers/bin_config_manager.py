@@ -25,9 +25,20 @@ from utils.helpers import clean_path
 from setting import DEFAULT_CONFIGS
 
 
-
-
 def history_get(bin_name, options=None):
+    """History Get Function
+    
+    Function returns bin history item which bin_name is equal to
+    'bin_name' param.
+    
+    Arguments:
+        bin_name: query search argument.
+        options: list of optional params.
+    
+    Returns:
+        value: object that represent history item.
+    
+    """
     for history_item in get_property('history'):
         if history_item['bin_name'] == bin_name:
             history_item['date'] = datetime.strptime(
@@ -39,11 +50,29 @@ def history_get(bin_name, options=None):
 
 
 def history_empty(options=None):
+    """History Empty Function
+
+    Function remove every history item from history.
+    Cleaning bin history
+
+    Arguments:
+        options: list of optional params.
+
+    """
     for history_item in get_property('history'):
         history_del(history_item['bin_name'])
 
 
 def history_add(src, options=None):
+    """History Add Function.
+    
+    Function  add new history item by provided src - source path.
+    
+    Arguments:
+        src: absolute path to file/dir/...
+        options: list of optional params.
+    
+    """
     history_item = {
         'src_name': os.path.basename(src),
         'src_dir': os.path.dirname(src),
@@ -56,6 +85,16 @@ def history_add(src, options=None):
 
 
 def history_del(bin_name, options=None):
+    """History Delete Function
+    
+    Function delete history item from history by provided bin_name.
+    
+    Arguments:
+        bin_name: query search param that is equal to 'bin_name' of needed to
+            delete element.
+        options: list of optional parameters.
+    
+    """
     set_property(
         'history',
         [i for i in get_property('history') if i['bin_name'] != bin_name]

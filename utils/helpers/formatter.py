@@ -27,15 +27,17 @@ class LvlDependFormatter(logging.Formatter):
         
         """
         format_orig = self._fmt
+
+        # Get custom formatter config
         formats = app_config_manager.get_property('logger.formats')
 
+        # Choose needed formatter depend on logging level.
+        # If level does not exists, choose default formatter.
         if logging.getLevelName(record.levelno) in formats:
             self._fmt = formats[logging.getLevelName(record.levelno)]
         else:
             self._fmt = formats['default']
 
         result = logging.Formatter.format(self, record)
-
         self._fmt = format_orig
-
         return result
