@@ -131,6 +131,12 @@ ARGS_CONFIG = [
         "shortcut": "-ll",
         "help": "Run command with user confirmation",
         "action": "store"
+    },
+    {
+        "name": "--force",
+        "shortcut": "-f",
+        "help": "Run command with force mod",
+        "action": "store_true"
     }
 ]
 ERROR_MESSAGES = {
@@ -159,3 +165,4 @@ INFO_MESSAGES = {
     "progress_del": "{} ... Delete {}"
 }
 HISTORY_DATETIME_FORMAT = "%Y.%m.%d"
+HISTORY_COPY_NAME_FORMAT = "{}-copy-{}"
