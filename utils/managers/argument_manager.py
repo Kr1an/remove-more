@@ -51,7 +51,8 @@ def _get_options(arguments):
         (arguments.silent, 'silent'),
         (arguments.dry, 'dry'),
         (arguments.confirm, 'confirm'),
-        (arguments.loglvl, 'loglvl')
+        (arguments.loglvl, 'loglvl'),
+        (arguments.force, 'force')
     ]
 
     conditions = [
