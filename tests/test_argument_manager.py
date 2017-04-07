@@ -38,7 +38,8 @@ class Args(object):
         silent=False,
         dry=False,
         confirm=False,
-        loglvl=None
+        loglvl=None,
+        force=False
                  ):
         self.binmove = binmove
         self.bincopy = bincopy
@@ -52,6 +53,7 @@ class Args(object):
         self.dry = dry
         self.confirm = confirm
         self.loglvl = loglvl
+        self.force = force
 
 
 class ArgumentManagerTestCase(unittest.TestCase):
