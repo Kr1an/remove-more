@@ -73,14 +73,23 @@ def history_add(src, options=None):
         options: list of optional params.
     
     """
-    history_item = {
-        'src_name': os.path.basename(src),
-        'src_dir': os.path.dirname(src),
-        'bin_name': os.path.basename(src),
-        'date': datetime.strftime(
-            datetime.now(), DEFAULT_CONFIGS.HISTORY_DATETIME_FORMAT
-        )
-    }
+    if type(src) is dict:
+        history_item = src
+    elif type(src) is str:
+        history_item = {
+            'src_name': os.path.basename(src),
+            'src_dir': os.path.dirname(src),
+            'bin_name': os.path.basename(src),
+        }
+
+    history_item.update(
+        {
+            'date': datetime.strftime(
+                datetime.now(),
+                DEFAULT_CONFIGS.HISTORY_DATETIME_FORMAT
+            )
+        }
+    )
     set_property('history', get_property('history') + [history_item])
 
 
