@@ -183,3 +183,31 @@ def is_valid():
     
     """
     return bool(_get_config())
+
+
+def setup(options):
+    """Setup Function
+    
+    Function setting up path to custom user config, checking if
+    'userconfpath' was passed as an argument.
+    
+    Arguments:
+        options: list of optional arguments.
+    
+    """
+    try:
+        if 'userconfpath' in options:
+            app_config_manager.set_property(
+                'user_config.path.custom',
+                os.path.abspath(options['userconfpath'])
+            )
+        else:
+            app_config_manager.set_property(
+                'user_config.path.custom',
+                app_config_manager.get_property(
+                    'user_config.path.default'
+                )
+            )
+        return 0
+    except Exception as e:
+        return 1

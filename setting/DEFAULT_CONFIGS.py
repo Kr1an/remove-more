@@ -143,6 +143,12 @@ ARGS_CONFIG = [
         "shortcut": "-nb",
         "help": "Run command with no bin specified",
         "action": "store_true"
+    },
+    {
+        "name": "--userconfpath",
+        "shortcut": "-ucp",
+        "help": "Pass custom user config path.",
+        "action": "store"
     }
 ]
 ERROR_MESSAGES = {

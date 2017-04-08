@@ -40,7 +40,8 @@ class Args(object):
         confirm=False,
         loglvl=None,
         force=False,
-        nobin=False
+        nobin=False,
+        userconfpath=None
                  ):
         self.binmove = binmove
         self.bincopy = bincopy
@@ -56,6 +57,7 @@ class Args(object):
         self.loglvl = loglvl
         self.force = force
         self.nobin = nobin
+        self.userconfpath = userconfpath
 
 
 class ArgumentManagerTestCase(unittest.TestCase):
