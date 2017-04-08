@@ -568,4 +568,55 @@ class ControllerTestCase(unittest.TestCase):
             )
         ))
 
+    def test_delete_with_nobin(self):
+        file_1 = os.path.join(self.test_folder_path, 'file_1')
+        os.mknod(file_1)
+        self.assertEqual(os.system(self.get_script('%s --nobin' % os.path.basename(file_1))), 0)
+        self.assertFalse(
+            bin_config_manager.history_get(os.path.basename(file_1))
+        )
+        self.assertEqual(
+            len(bin_config_manager.get_property('history')),
+            0
+        )
+        self.assertFalse(os.path.exists(
+            os.path.join(self.test_bin_path, 'file_1')
+        ))
+
+    def test_delete_with_nobin_from_bin(self):
+        file_1 = os.path.join(self.test_folder_path, 'file_1')
+        os.mknod(file_1)
+        self.assertEqual(os.system(self.get_script('%s' % os.path.basename(file_1))), 0)
+        self.assertTrue(
+            bin_config_manager.history_get(os.path.basename(file_1))
+        )
+        self.assertEqual(
+            len(bin_config_manager.get_property('history')),
+            1
+        )
+        self.assertEqual(
+            os.system(
+                self.get_script(
+                    '%s --nobin' % os.path.join(
+                        self.test_bin_path,
+                        os.path.basename(file_1)
+                    ))
+            ), 0
+        )
+        self.assertFalse(
+            bool(bin_config_manager.history_get(os.path.basename(file_1)))
+        )
+        self.assertEqual(
+            len(bin_config_manager.get_property('history')),
+            0
+        )
+        self.assertFalse(
+            os.path.exists(
+                os.path.join(
+                    self.test_bin_path,
+                    os.path.basename(file_1)
+                )
+            )
+        )
+
 
