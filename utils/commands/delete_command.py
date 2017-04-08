@@ -57,7 +57,8 @@ def delete(paths, options=None):
         # Check if command run in dry mode and if so skip main management
         # operation and only print info
         if not bin_config_manager.is_dry_mode(options):
-            _copy_to_bin(del_paths, options)
+            if not options or 'nobin' not in options:
+                _copy_to_bin(del_paths, options)
             _delete(del_paths, options)
         # Print info about what was done while operation
         get_log().info(INFO_MESSAGES['delete'].format(
@@ -124,7 +125,6 @@ def _copy_by_rename_way(path, options):
         while True:
 
             tmp_bin_name = HISTORY_COPY_NAME_FORMAT.format(bin_name, count)
-            print(tmp_bin_name)
             if not bin_config_manager.history_get(tmp_bin_name, options):
                 break
             count += 1
@@ -245,6 +245,8 @@ def _delete(paths, options=None):
     # src location.
     for path in paths:
         clean_path.delete(path, options)
+        if os.path.dirname(path) == user_config_manager.get_property('bin_path'):
+            bin_config_manager.history_del(os.path.basename(path), options)
         # Print progress of operation
         get_log().info(
             INFO_MESSAGES['progress_del'].format(
