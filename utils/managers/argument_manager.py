@@ -52,7 +52,8 @@ def _get_options(arguments):
         (arguments.dry, 'dry'),
         (arguments.confirm, 'confirm'),
         (arguments.loglvl, 'loglvl'),
-        (arguments.force, 'force')
+        (arguments.force, 'force'),
+        (arguments.nobin, 'nobin')
     ]
 
     conditions = [

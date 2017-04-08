@@ -137,6 +137,12 @@ ARGS_CONFIG = [
         "shortcut": "-f",
         "help": "Run command with force mod",
         "action": "store_true"
+    },
+    {
+        "name": "--nobin",
+        "shortcut": "-nb",
+        "help": "Run command with no bin specified",
+        "action": "store_true"
     }
 ]
 ERROR_MESSAGES = {
