@@ -53,7 +53,8 @@ def _get_options(arguments):
         (arguments.confirm, 'confirm'),
         (arguments.loglvl, 'loglvl'),
         (arguments.force, 'force'),
-        (arguments.nobin, 'nobin')
+        (arguments.nobin, 'nobin'),
+        (arguments.userconfpath, 'userconfpath')
     ]
 
     conditions = [
