@@ -199,7 +199,7 @@ def setup(options):
         if 'userconfpath' in options:
             app_config_manager.set_property(
                 'user_config.path.custom',
-                options['userconfigpath']
+                os.path.abspath(options['userconfpath'])
             )
         else:
             app_config_manager.set_property(
